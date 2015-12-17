@@ -80,15 +80,15 @@ void SceneManager::initSoundEngine()
 
 	background->initialise();
 	background->load("Music/BGM/Black Vortex.mp3");//creates a streamed sound
-	background->setVolume(0.1f);
+	background->setVolume(0.2f);
 	background->play();
 
 	result = FMODsys->createReverb(&reverb);
 	FMOD_REVERB_PROPERTIES prop = FMOD_PRESET_SEWERPIPE;
 	reverb->setProperties(&prop);
 
-	ambientAudioball.setRadius(maxdist);
-	ambientAudioball.setFillColor(sf::Color(0,127,0, 40));
+	ambientAudioball.setRadius(20);
+	ambientAudioball.setFillColor(sf::Color(0,255,0, 190));
 	ambientAudioball.setOrigin(sf::Vector2f(ambientAudioball.getRadius() / 2, ambientAudioball.getRadius() / 2));
 	ambientAudioball.setPosition(sf::Vector2f(500, 400));
 
@@ -277,7 +277,7 @@ void SceneManager::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 
 	updateView(elapsedTime);
 
-	player.update(elapsedTime, camera.getCenter());
+	player.update(elapsedTime, sf::Vector2f(windowSize));
 
 	for (size_t i = 0; i < enemyMelee.size(); i++)
 	{
@@ -300,7 +300,7 @@ void SceneManager::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 				player.setIsHit(true);
 				if (player.isHit() && player.canHit())
 				{
-					//player.updateHealth(-5);
+					player.updateHealth(-5);
 				}
 			}
 			if (player.checkCollisionAttack(enemyMelee[i]->getPos(), enemyMelee[i]->getSize()))
@@ -308,6 +308,7 @@ void SceneManager::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 				enemyMelee[i]->setIsHit(true);
 				if (enemyMelee[i]->isHit() && enemyMelee[i]->getHitCoolDown() <= 0)
 				{
+					enemyMelee[i]->setHitCoolDown(0.4f);
 					enemyMelee[i]->updateHealth(-player.getHitDamage());
 				}
 			}
@@ -347,7 +348,6 @@ void SceneManager::audioControls()
 		else if (canBGMPlay)
 		{
 			canBGMPlay = false;
-			channel->setPaused(false);
 			background->setPause(canBGMPlay);
 		}
 	}
@@ -411,8 +411,8 @@ void SceneManager::gameDraw(sf::RenderWindow * window)
 	viewport.setFillColor(sf::Color(255, 255, 255, 84));
 
 	window->draw(m_sprite);
-	window->draw(spawne);
-	window->draw(viewport);
+	//window->draw(spawne);
+	//window->draw(viewport);
 
 	//Error with Bufferring where objects stutterring on the same plane
 	for (int i = 0; i < (int)entities.size(); i++)//bubble sort / z-buffer
@@ -438,8 +438,11 @@ void SceneManager::gameDraw(sf::RenderWindow * window)
 			entities[i]->draw(window);//draw
 		}
 	}
-	window->draw(reverbAudioball);
-	window->draw(ambientAudioball);
+	if (!can3DsoundPlay)
+	{
+		window->draw(ambientAudioball);
+	}
+
 	window->setView(camera);
 }
 
@@ -471,6 +474,8 @@ void SceneManager::draw()
 	}
 	else if (getIndex() == GameOverScreen)
 	{
-		m_screenWindow->draw(c4);
+		m_screenWindow->draw(c1);
+		m_screenWindow->draw(c2);
+		m_screenWindow->draw(c3);
 	}
 }

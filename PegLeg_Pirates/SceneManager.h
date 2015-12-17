@@ -52,19 +52,17 @@ private:
 	std::vector<EnemySword *> enemyMelee;
 	std::vector<Entity *> entities;
 
+
+
 	sf::CircleShape ambientAudioball;
-	sf::CircleShape reverbAudioball;
-
 	Sound *background;
-
-	FMOD::Sound *sound;
+	FMOD::Sound *sound3D;
 	FMOD::Channel *channel = 0;
 	FMOD::Reverb *reverb;
 	float mindist = 0.0f;
 	float maxdist = 400;
 	FMOD::System *FMODsys; //will point to the FMOD system
 	FMOD_RESULT result;
-	FMOD::Sound *sound3D;
 
 	FMOD_VECTOR  listenervel;
 	FMOD_VECTOR  listenerpos;

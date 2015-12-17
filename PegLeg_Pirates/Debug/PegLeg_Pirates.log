@@ -1,5 +1,13 @@
-﻿Build started 15/12/2015 16:05:06.
+﻿Build started 16/12/2015 12:06:48.
+     1>Project "C:\Users\C00179413\Desktop\PegLeg_Pirates\PegLeg_Pirates\PegLeg_Pirates.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         PegLeg_Pirates.vcxproj -> C:\Users\C00179413\Desktop\PegLeg_Pirates\Debug\PegLeg_Pirates.exe
+       PostBuildEvent:
+         copy /y “C:\FMOD Programmers API Windows\api\fmodex.dll” “C:\Users\C00179413\Desktop\PegLeg_Pirates\Debug\”
+         :VCEnd
+                 1 file(s) copied.
+     1>Done Building Project "C:\Users\C00179413\Desktop\PegLeg_Pirates\PegLeg_Pirates\PegLeg_Pirates.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.07
+Time Elapsed 00:00:00.09

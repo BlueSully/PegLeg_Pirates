@@ -50,6 +50,7 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::T
 	setIsHit(false);
 	setAlive(true);
 	m_speed = (float)(rand() % 50 + 30);
+
 	setHitCoolDown(0);
 	timeToAttack = 0;//one second;
 	m_health = 100;
@@ -68,7 +69,7 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 		setIsHit(false);
 	}
 
-	if (m_health < 0)
+	if (m_health <= 0)
 	{
 		setAlive(false);
 	}

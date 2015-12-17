@@ -53,11 +53,11 @@ int Player::getHitDamage()
 	int damage = 0;
 	if (m_weakAttack)
 	{
-		damage = 700;
+		damage = 51;
 	}
 	else if (m_strongAttack)
 	{
-		damage = 50;
+		damage = 101;
 	}
 	return damage;
 }
@@ -149,10 +149,6 @@ void Player::attackMeleeController(sf::Time deltaTime)
 				m_strongAttack = true;
 				m_hitboxLife -= deltaTime.asSeconds();//time for attack to be removed
 				m_weapon.setColor(sf::Color::Yellow);
-				if (sfxtoggled)
-				{
-					sysFMOD->playSound(FMOD_CHANNEL_FREE, swordWoosh, false, 0);
-				}
 			}
 		}
 	}
@@ -221,7 +217,6 @@ void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f w
 			m_body.move(-m_tempSpeed / 2, 0);
 		}
 	}
-	//else if (right && (int)m_shadow.getPosition().x + m_shadowWidth < (int)window.x)
 	else if (right)
 	{
 		if (!m_isJumping)
@@ -234,8 +229,7 @@ void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f w
 		}
 	}
 	
-	//if (up && (int)m_shadow.getPosition().y >(int)window.y / 2)
-	if (up)
+	if (up && (int)m_shadow.getPosition().y >(int)window.y / 2)
 	{
 		if (!m_isJumping){
 			m_body.move(0, -m_tempSpeed);
@@ -246,8 +240,7 @@ void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f w
 			m_oldjump += -m_tempSpeed / 3;
 		}
 	}
-	//else if (down && (int)m_shadow.getPosition().y + m_shadowHeight < (int)window.y)
-	else if (down)
+	else if (down && (int)m_shadow.getPosition().y + m_shadowHeight < (int)window.y)
 	{
 		if (!m_isJumping)
 		{
@@ -358,10 +351,16 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window)
 	attackMeleeController(deltaTime);
 	attackRangedController(deltaTime);
 	
-	if (m_health < 0)
+	if (m_health <= 0)
 	{
 		setAlive(false);
 	}
+	if (m_health > 0)
+	{
+		setAlive(true);
+	}
+
+
 	for (size_t i = 0; i < bulletArray.size(); i++)
 	{
 		bulletArray[i]->update(deltaTime);

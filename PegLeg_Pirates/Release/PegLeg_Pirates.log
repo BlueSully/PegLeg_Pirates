@@ -1,20 +1,33 @@
-﻿Build started 11/12/2015 12:32:51.
+﻿Build started 17/12/2015 09:00:14.
      1>Project "C:\Users\C00179413\Desktop\PegLeg_Pirates\PegLeg_Pirates\PegLeg_Pirates.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /I\inc /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt PegLeg_Pirates.cpp SceneManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /I"C:\FMOD Programmers API Windows\api\inc" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt EnemySword.cpp Entity.cpp PegLeg_Pirates.cpp Player.cpp Projectile.cpp SceneManager.cpp sound.cpp stdafx.cpp
+         EnemySword.cpp
+         Entity.cpp
          PegLeg_Pirates.cpp
+         Player.cpp
+         Projectile.cpp
          SceneManager.cpp
+         sound.cpp
+         stdafx.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" /LIBPATH:\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.lib" /MACHINE:X86 /SAFESEH Release\EnemySword.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" /LIBPATH:"C:\FMOD Programmers API Windows\api\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.lib" /MACHINE:X86 /SAFESEH Release\EnemySword.obj
          Release\Entity.obj
          Release\PegLeg_Pirates.obj
          Release\Player.obj
          Release\Projectile.obj
          Release\SceneManager.obj
+         Release\sound.obj
          Release\stdafx.obj
-     1>LINK : fatal error LNK1104: cannot open file 'fmodexL_vc.lib'
-     1>Done Building Project "C:\Users\C00179413\Desktop\PegLeg_Pirates\PegLeg_Pirates\PegLeg_Pirates.vcxproj" (Build target(s)) -- FAILED.
+         Generating code
+         Finished generating code
+         PegLeg_Pirates.vcxproj -> C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\PegLeg_Pirates.exe
+       PostBuildEvent:
+         copy /y “C:\FMOD Programmers API Windows\api\fmodex.dll” “C:\Users\C00179413\Desktop\PegLeg_Pirates\Release\”
+         :VCEnd
+                 1 file(s) copied.
+     1>Done Building Project "C:\Users\C00179413\Desktop\PegLeg_Pirates\PegLeg_Pirates\PegLeg_Pirates.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:02.13
+Time Elapsed 00:00:06.73
