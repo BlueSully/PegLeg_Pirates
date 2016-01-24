@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <tchar.h>  
 #include <iostream>
+#include <stdio.h>      /* printf, scanf, puts, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>
 
 using namespace sf;
 
@@ -22,8 +25,22 @@ enum Screens {
 	TitleScreen,
 	MenuScreen,
 	OptionScreen,
+	LevelSel,
 	GameScreen,
 	GameOverScreen
+};
+
+enum EntityType {
+	PlayerEntity,
+	EnemyEntity,
+	BossEntity,
+	ObjectEntity
+};
+
+enum Stage {
+	Stage1,
+	Stage2,
+	Stage3
 };
 
 enum EnemyType {

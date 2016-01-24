@@ -1,72 +1,31 @@
-#include "Player.h"
-#include "EnemySword.h"
+#ifndef SCENEMANAGER_H
+#define SCENEMANAGER_H
+
 #include "stdafx.h"
-#include <stdlib.h>    
-#include <time.h>    
-#include "Projectile.h"
+
+#include "GameScene.h"
+#include "MenuScene.h"
+#include "OptionsScene.h"
+#include "LevelSelect.h"
 
 class SceneManager{
 private:
 	int m_sceneIndex;//Holds what screen is 
 	sf::CircleShape c1, c2, c3, c4;//testers circles
 	sf::RenderWindow * m_screenWindow;
-
-	sf::View camera;
-	int killCount;
-	int nextWave;
-	int activeCount;
-
-	bool debugPressed;
-	bool cameraLocked;
-	bool cameraMoving;
+	sf::Texture m_mainText;
+	sf::Font font;
+	sf::Text menuItem1;
+	sf::Text menuItem2;
+	sf::Text menuItem3;
 	
-	bool num2Pressed;
-	bool num3Pressed;
-	bool num4Pressed;
+	sf::Sprite m_Menusprite;
 
-	bool canReverbPlay;
-	bool canBGMPlay;
-	bool can3DsoundPlay;
-
-	sf::RectangleShape viewport;
-	sf::IntRect spawnZone;
-	bool moveWave;
-	sf::Vector2f nextCameraPos;
-	std::vector<int> cameraXZones;
-
-	// Declare and load a texture
-	sf::Texture m_playerSprite;
-	sf::Texture m_floor, m_playerbody, m_shadow, m_meleeWeapon;
-
-	sf::Sprite m_sprite;
-
-	float m_enemyOnScreenCount;
-
-	int groupADist = 0;
-	int groupBDist;
-	int groupCDist;
-	int totalEnemySize = 40;
-
-	Player player;
-
-	std::vector<EnemySword *> enemyMelee;
-	std::vector<Entity *> entities;
-
-
-
-	sf::CircleShape ambientAudioball;
-	Sound *background;
-	FMOD::Sound *sound3D;
-	FMOD::Channel *channel = 0;
-	FMOD::Reverb *reverb;
-	float mindist = 0.0f;
-	float maxdist = 400;
-	FMOD::System *FMODsys; //will point to the FMOD system
-	FMOD_RESULT result;
-
-	FMOD_VECTOR  listenervel;
-	FMOD_VECTOR  listenerpos;
-	FMOD_VECTOR  sourcePos;
+	GameScene game;
+	MenuScene menu;
+	OptionsScene options;
+	LevelSelect levelSelect;
+	
 public:
 	SceneManager();
 	SceneManager(sf::RenderWindow &window);
@@ -77,16 +36,9 @@ public:
 	//SceneManager Methods
 	void checkindex();
 	void initSoundEngine();
-	void getNextScreen();
-	void updateView(sf::Time elapsedTime);
+
 	void update(sf::Time elapsedTime);
 	void draw();
-
-	//GameScreen Methods
-	void initGame(sf::Vector2u windowSize);
-	void initEnemy(sf::Vector2u windowSize);
-	void audioControls();
-	void gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
-	void gameUnload();
-	void gameDraw(sf::RenderWindow * window);
 };
+
+#endif

@@ -24,16 +24,27 @@
 #include <math.h>
 #include "SceneManager.h"
 
+//FMOD includes
+
+
+
+//#include "fmod.hpp"
+//#include "fmod_errors.h"
+
 //Controls Press Y on the Keyboard for WASD Controls / Press U on the Keyboard for UP,DOWN,LEFT,RIGHT Controls
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Pegleg Priates");
 	sf::Clock clock;
+	
+	//FMOD::System *FMODsys; //will point to the FMOD system
+
+	//FMOD_RESULT result;
 
 	SceneManager ManagerScreen(window);
 
 	bool pressed = false;
-	ManagerScreen.setIndex(Screens::GameScreen);
+	ManagerScreen.setIndex(Screens::GameOverScreen);
 
 	while (window.isOpen())
 	{
@@ -50,18 +61,15 @@ int main()
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed)
-		{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed){
 			ManagerScreen.setIndex(ManagerScreen.getIndex() + 1);
 
 			pressed = true;
 			if (ManagerScreen.getIndex() > Screens::GameOverScreen)
-			{
-				ManagerScreen.setIndex(0);
-			}
+				ManagerScreen.setIndex(Screens::TitleScreen);
+
 		}
-		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-		{
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
 			pressed = false;
 		}
 

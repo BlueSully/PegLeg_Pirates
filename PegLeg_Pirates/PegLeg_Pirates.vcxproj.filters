@@ -42,6 +42,27 @@
     <ClInclude Include="sound.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\ProjectileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\WaveManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\EnemyGun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemySword.cpp">
@@ -66,6 +87,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\ProjectileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\waveManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Anthony O%27Sullivan\Desktop\New folder\New folder\PegLeg_Pirates\PegLeg_Pirates\EnemyGun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

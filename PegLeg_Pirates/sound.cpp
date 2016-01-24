@@ -26,9 +26,9 @@ void Sound::initialise(void) {
 }
 
 //sets the actual playing sound's volume
-void Sound::setVolume(float volume) {
-	if (possible && on && volume >= 0.0f && volume <= 1.0f) {
-		FMOD_Channel_SetVolume(channel, volume);
+void Sound::setVolume(float v) {
+	if (possible && on && v >= 0.0f && v <= 1.0f) {
+		FMOD_Channel_SetVolume(channel, v);
 	}
 }
 

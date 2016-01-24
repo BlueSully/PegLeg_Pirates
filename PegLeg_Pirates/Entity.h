@@ -9,7 +9,7 @@ protected:
 	std::string name;
 	sf::Vector2f m_pos;
 
-	sf::Sprite m_body;//replace all with sprites
+	sf::Sprite m_body;
 	sf::Sprite m_shadow;
 	sf::Sprite m_weapon;
 
@@ -20,6 +20,7 @@ protected:
 	float m_shadowWidth;
 
 	bool m_isAttacking;
+	bool m_activated;
 	bool m_isHit;
 	bool m_canHit;
 	bool m_alive;
@@ -29,36 +30,38 @@ public:
 	Entity();
 
 	//get Methods
-	sf::Sprite getSpriteBody();
-	sf::Sprite getSpriteBase();
-	sf::Sprite getSpriteWeapon();
+	virtual sf::Sprite getSpriteBody();
+	virtual sf::Sprite getSpriteBase();
+	virtual sf::Sprite getSpriteWeapon();
 
 	virtual sf::Vector2f Entity::getPos();
 	virtual sf::Vector2f getSize();
 
-	bool isHit();
-	bool canHit();
-	bool isAlive();
-	int getHealth();
+	virtual bool isHit();
+	virtual bool canHit();
+	virtual bool isAlive();
+	virtual int getHealth();
+	virtual void setActive(bool value);
+	virtual bool isActivated();
 
 	//set methods
-	void setIsHit(bool value);
-	void setCanHit(bool value);
-	void setPos(sf::Vector2f value);
-	void setPosX(float x);
-	void setPosY(float y);
-	void setSize(sf::Vector2f pos);
-	void setAlive(bool);
+	virtual void setIsHit(bool value);
+	virtual void setCanHit(bool value);
+	virtual void setPos(sf::Vector2f value);
+	virtual void setPosX(float x);
+	virtual void setPosY(float y);
+	virtual void setSize(sf::Vector2f pos);
+	virtual void setAlive(bool);
 
 	//Methods
-	float getHitCoolDown();
-	void setHitCoolDown(float myCoolDown);
-	void updateHealth(int value);
+	virtual float getHitCoolDown();
+	virtual void setHitCoolDown(float myCoolDown);
+	virtual void updateHealth(int value);
 	
-	bool onSamePlaneY(sf::Vector2f targetPos, sf::Vector2f targetSize);
-	bool onSamePlaneX(sf::Vector2f targetPos, sf::Vector2f targetSize);
-	bool onSamePlaneY(Entity * entityB);
-	bool onSamePlaneX(Entity * entityB);
+	virtual bool onSamePlaneY(sf::Vector2f targetPos, sf::Vector2f targetSize);
+	virtual bool onSamePlaneX(sf::Vector2f targetPos, sf::Vector2f targetSize);
+	virtual bool onSamePlaneY(Entity * entityB);
+	virtual bool onSamePlaneX(Entity * entityB);
 
 	virtual void draw(sf::RenderWindow * window) = 0;
 };

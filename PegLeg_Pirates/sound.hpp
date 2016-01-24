@@ -1,4 +1,4 @@
-#include "fmod.hpp" //FMOD Ex
+#include "fmod.h" //FMOD Ex
 
 /******** CLASS DEFINITION ********/
 
@@ -17,7 +17,7 @@ public:
 	static void initialise(void); //initialises sound
 
 	//sound control
-	void setVolume(float volume); //sets the actual playing sound's volume
+	static void setVolume(float v); //sets the actual playing sound's volume
 	static void load(const char * filename); //loads a soundfile
 	static void unload(void); //frees the sound object
 	static void play(bool pause = false); //plays a sound (may be started paused; no argument for unpaused)

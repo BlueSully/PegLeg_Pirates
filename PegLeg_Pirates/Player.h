@@ -2,11 +2,10 @@
 #define PLAYER_H
 
 #include "Entity.h"
-#include "Projectile.h"
+#include "ProjectileManager.h"
 
 class Player : public Entity{
 private:
-	std::vector<Projectile*> bulletArray;
 	sf::Vector2f m_playerPos;
 	char controlType = 'A';
 	float m_jumpVec = 0;//jump velocity
@@ -46,10 +45,10 @@ public:
 		
 	bool checkCollisionAttack(sf::Vector2f targetpos, sf::Vector2f targetsize);
 	void attackMeleeController(sf::Time deltaTime);
-	void attackRangedController(sf::Time deltaTime);
+	void attackRangedController(sf::Time deltaTime, ProjectileManager *manager);
 	void moveController(sf::Time deltaTime, char controlType, sf::Vector2f window);
 	void jumpController(sf::Time deltaTime);
-	void update(sf::Time deltaTime, sf::Vector2f window);
+	void update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager);
 	virtual void draw(sf::RenderWindow * window);
 };
 

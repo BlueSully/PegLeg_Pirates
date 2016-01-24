@@ -27,6 +27,7 @@ Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsy
 	m_weapon = sf::Sprite(melee, sf::IntRect(0, 0, (int)m_weaponSize.x, (int)m_weaponSize.y));
 	m_oldjump = m_playerPos.y;
 	m_health = 100;
+	m_activated = true;
 	m_isHit = false;
 	m_alive = true;
 	m_canHit = true;
@@ -161,23 +162,21 @@ void Player::attackMeleeController(sf::Time deltaTime)
 	}
 }
 
-void Player::attackRangedController(sf::Time deltaTime)
+void Player::attackRangedController(sf::Time deltaTime, ProjectileManager* manager)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && m_firedGun == false)
 	{
 		m_firedGun = true;
-		sf::Vector2f projectileVec;
+		float projectileVec;
 		if (m_facingRight)
 		{
-			projectileVec = sf::Vector2f(500, 0);
+			projectileVec = 500;
 		}
 		else
 		{
-			projectileVec = sf::Vector2f(-500, 0);
+			projectileVec = -500;
 		}
-
-		Projectile *projectile = new Projectile(getPos(), projectileVec);
-		bulletArray.push_back(projectile);
+		manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2, getPos().y + getSize().y / 2), projectileVec, EntityType::PlayerEntity);
 		sysFMOD->playSound(FMOD_CHANNEL_FREE, gunShot, false, 0);
 	}
 	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -301,7 +300,7 @@ void Player::jumpController(sf::Time deltaTime)
 	}
 }
 
-void Player::update(sf::Time deltaTime, sf::Vector2f window)
+void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
 	{
@@ -349,7 +348,7 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window)
 	}
 
 	attackMeleeController(deltaTime);
-	attackRangedController(deltaTime);
+	attackRangedController(deltaTime, manager);
 	
 	if (m_health <= 0)
 	{
@@ -358,12 +357,6 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window)
 	if (m_health > 0)
 	{
 		setAlive(true);
-	}
-
-
-	for (size_t i = 0; i < bulletArray.size(); i++)
-	{
-		bulletArray[i]->update(deltaTime);
 	}
 
 	m_body.move(sf::Vector2f(0, -m_jumpVec * deltaTime.asSeconds()));//updating jump
@@ -378,14 +371,11 @@ void Player::draw(sf::RenderWindow * window)
 	sf::RectangleShape shp;
 	shp.setPosition(sf::Vector2f(m_playerPos.x, m_playerPos.y -20));
 	shp.setSize(sf::Vector2f((float)(getHealth() / 2), (float)(20)));
-
-	for (size_t i = 0; i < bulletArray.size(); i++)
-	{
-		bulletArray[i]->draw(window);
-	}
+	
 	window->draw(m_shadow);
 	window->draw(m_body);
 	window->draw(shp);
+
 	if (m_isAttacking)
 	{
 		window->draw(m_weapon);//weapon for debugging purpose

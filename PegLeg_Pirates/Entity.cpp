@@ -95,6 +95,16 @@ void Entity::setSize(sf::Vector2f pos)
 	m_bodyWidth = pos.y;
 }
 
+void Entity::setActive(bool value)
+{
+	m_activated = value;
+}
+
+bool Entity::isActivated()
+{
+	return m_activated;
+}
+
 void Entity::updateHealth(int value)
 {
 	if (m_isHit)
@@ -115,7 +125,9 @@ void Entity::updateHealth(int value)
 bool Entity::onSamePlaneY(Entity * entityB)
 {
 	if (m_shadow.getPosition().y < entityB->getSpriteBase().getPosition().y + entityB->m_shadowHeight &&
-		m_shadow.getPosition().y + m_shadowHeight > entityB->getSpriteBase().getPosition().y)
+		m_shadow.getPosition().y + m_shadowHeight > entityB->getSpriteBase().getPosition().y ||
+		m_shadow.getPosition().y > entityB->getSpriteBase().getPosition().y + entityB->m_shadowHeight &&
+		m_shadow.getPosition().y + m_shadowHeight < entityB->getSpriteBase().getPosition().y)
 	{
 		return true;
 	}

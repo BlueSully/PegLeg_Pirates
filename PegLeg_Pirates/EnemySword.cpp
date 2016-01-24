@@ -25,9 +25,15 @@ void EnemySword::setActive(bool value)
 	m_activated = value;
 }
 
+void EnemySword::setPos(sf::Vector2f value)
+{
+	m_pos = value;
+	Entity::setPos(value);
+}
+
 void EnemySword::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Texture & shadowSprite, sf::Texture & weaponSprite, int index)
 {
-	name = index;
+	name = "Enemy" + index;
 	m_pos = value;
 	orgColour = sf::Color(255,0,0, 125);
 	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)bodySprite.getSize().x, (int)bodySprite.getSize().y));
@@ -49,7 +55,7 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::T
 	m_isAttacking = false;
 	setIsHit(false);
 	setAlive(true);
-	m_speed = (float)(rand() % 50 + 30);
+	m_speed = (float)(50);
 
 	setHitCoolDown(0);
 	timeToAttack = 0;//one second;
