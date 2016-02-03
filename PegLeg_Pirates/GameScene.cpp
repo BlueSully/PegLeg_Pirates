@@ -2,8 +2,30 @@
 #include "GameScene.h"
 
 
-GameScene::GameScene(){
+GameScene::GameScene()
+{
 
+}
+
+GameScene::GameScene(sf::Vector2u windowSize)
+{
+	initGame(windowSize);
+}
+
+GameScene::~GameScene()
+{
+	std::cout << "GAMESCENE DESTROYED" << std::endl;
+	for (std::vector<EnemySword *>::const_iterator it = enemyMelee.begin(); it != enemyMelee.end(); it++)
+	{
+		delete *it;
+	}
+	enemyMelee.clear();
+	for (std::vector<EnemyGun *>::const_iterator it = enemyGun.begin(); it != enemyGun.end(); it++)
+	{
+		delete *it;
+	}
+	enemyGun.clear();
+	entities.clear();
 }
 
 void GameScene::initGame(sf::Vector2u windowSize)
@@ -149,19 +171,19 @@ void GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 	{
 		if (!cameraMoving && cameraLocked)
 		{//check to see if camera is locked in place
-			if (waveManager.getWave1().size() == 0 && waveManager.getCurStage() == Stage::Stage1)
+			if (waveManager.getWave1().size() == 0 && waveManager.getCurStage() == Wave::wave1)
 			{
 				viewport.setPosition(viewport.getPosition().x + windowSize.x / 2, viewport.getPosition().y);//move screen
 				cameraLocked = false;
 				cameraMoving = true;
-				waveManager.setCurStage(Stage::Stage2);
+				waveManager.setCurStage(Wave::wave2);
 			}
-			else if (waveManager.getWave2().size() == 0 && waveManager.getCurStage() == Stage::Stage2)
+			else if (waveManager.getWave2().size() == 0 && waveManager.getCurStage() == Wave::wave2)
 			{
 				viewport.setPosition(viewport.getPosition().x + windowSize.x / 2, viewport.getPosition().y);
 				cameraLocked = false;
 				cameraMoving = true;
-				waveManager.setCurStage(Stage::Stage3);
+				waveManager.setCurStage(Wave::wave3);
 			}
 		}
 	}
@@ -173,7 +195,7 @@ void GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 		waveManager.setSpawnPos((int)(viewport.getPosition().x + camera.getSize().x), waveManager.getSpawner().top);
 	}
 
-	if (waveManager.getCurStage() == Stage::Stage1)
+	if (waveManager.getCurStage() == Wave::wave1)
 	{
 		for (size_t i = 0; i < waveManager.getWave1().size(); i++)
 		{
@@ -190,7 +212,7 @@ void GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 			}
 		}
 	}
-	else if (waveManager.getCurStage() == Stage::Stage2)
+	else if (waveManager.getCurStage() == Wave::wave2)
 	{
 		for (size_t i = 0; i < waveManager.getWave2().size(); i++)
 		{
@@ -207,7 +229,7 @@ void GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 			}
 		}
 	}
-	else if (waveManager.getCurStage() == Stage::Stage3)
+	else if (waveManager.getCurStage() == Wave::wave3)
 	{
 		for (size_t i = 0; i < waveManager.getWave3().size(); i++)
 		{
@@ -364,6 +386,8 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 
 	}
 }
+
+
 
 void GameScene::audioControls()
 {

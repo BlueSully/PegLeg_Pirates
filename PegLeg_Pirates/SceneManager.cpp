@@ -1,23 +1,22 @@
 #include "SceneManager.h"
 
-
-
 SceneManager::SceneManager()
 {
 	
-
 }
 
 SceneManager::SceneManager(sf::RenderWindow &window)
 {
 	m_screenWindow = &window;
+	menu = new MenuScene(m_screenWindow->getSize(), Screens::TitleScreen);
+	options = new OptionsScene(m_screenWindow->getSize());
+}
 
-	game = GameScene();
-	menu = MenuScene();
-	options = OptionsScene();
-	menu.initMenu(m_screenWindow->getSize());
-	options.initOptions(m_screenWindow->getSize());
-	levelSelect.initLevelSelect(m_screenWindow->getSize());
+SceneManager::~SceneManager()
+{
+	delete menu;
+	delete options;
+	delete game;
 }
 
 int SceneManager::getIndex()
@@ -35,28 +34,50 @@ void SceneManager::checkindex()
 {
 	switch (m_sceneIndex)
 	{
+		case Screens::LevelSel:
+			levelSelect.initLevelSelect(m_screenWindow->getSize());
+			break;
 		case Screens::GameScreen:
-			game.initGame(m_screenWindow->getSize());
+			game = new GameScene(m_screenWindow->getSize());
 			break;
 		case Screens::GameOverScreen:
-			menu.initMenu(m_screenWindow->getSize(), Screens::GameOverScreen);
+			menu->initMenu(m_screenWindow->getSize(), Screens::GameOverScreen);
 			break;
 		default:
 			break;
 	}
 }
 
-
-
-void SceneManager::update(sf::Time elapsedTime)
+void SceneManager::update(sf::Event * evt, sf::Time elapsedTime)
 {
-	if (getIndex() == GameScreen)
+	int sceneValue = 0;
+	if (getIndex() == Screens::GameScreen)
 	{
-		game.gameUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+		game->gameUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
 	}
-	else if (getIndex() == GameOverScreen)
+	else if (getIndex() == Screens::TitleScreen)
 	{
-		menu.MenuUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+		sceneValue = menu->MenuUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()), Screens::TitleScreen);
+	}
+	else if (getIndex() == Screens::MenuScreen)
+	{
+		sceneValue = menu->MenuUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()), Screens::MenuScreen);
+	}
+	else if (getIndex() == Screens::OptionScreen)
+	{
+		sceneValue = options->OptionsUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+	}
+	else if (getIndex() == Screens::GameOverScreen)
+	{
+		sceneValue = menu->MenuUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()), Screens::GameOverScreen);
+	}
+	if (sceneValue != -1)
+	{
+		if (sceneValue > 0)
+		{
+			std::cout << "Moving Scene To " << sceneValue << std::endl;
+			setIndex(sceneValue);
+		}
 	}
 }
 
@@ -64,15 +85,15 @@ void SceneManager::draw()
 {
 	if (getIndex() == GameScreen)
 	{
-		game.gameDraw(m_screenWindow);
+		game->gameDraw(m_screenWindow);
 	}
 	else if (getIndex() == TitleScreen)
 	{
-		menu.MenuDraw(m_screenWindow, TitleScreen);
+		menu->MenuDraw(m_screenWindow, TitleScreen);
 	}
 	else if (getIndex() == MenuScreen)
 	{
-		menu.MenuDraw(m_screenWindow, MenuScreen);
+		menu->MenuDraw(m_screenWindow, MenuScreen);
 	}
 	else if (getIndex() == LevelSel)
 	{
@@ -80,11 +101,11 @@ void SceneManager::draw()
 	}
 	else if (getIndex() == OptionScreen)
 	{
-		options.OptionsDraw(m_screenWindow);
+		options->OptionsDraw(m_screenWindow);
 	}
 	else if (getIndex() == GameOverScreen)
 	{
-		menu.MenuDraw(m_screenWindow, GameOverScreen);
+		menu->MenuDraw(m_screenWindow, GameOverScreen);
 	}
 }
 

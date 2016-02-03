@@ -5,7 +5,7 @@ WaveManager::WaveManager()
 	wave1Size = rand() % 4 + 4;
 	wave2Size = rand() % 4 + 8;
 	wave3Size = 18;
-	curStage = Stage::Stage1;
+	curStage = Wave::wave1;
 }
 
 WaveManager::WaveManager(sf::IntRect spawnRect)
@@ -14,10 +14,14 @@ WaveManager::WaveManager(sf::IntRect spawnRect)
 	wave2Size = 8;
 	wave3Size = 16;
 	spawnTrigger = spawnRect;
-	curStage = Stage::Stage1;
+	curStage = Wave::wave1;
 }
 
-WaveManager::~WaveManager(){
+WaveManager::~WaveManager()
+{
+	std::cout << "WaveManager Destroyed" << std::endl;
+
+	//Enemies are deleted elsewhere just clear lists
 	wave1.clear();
 	wave2.clear();
 	wave3.clear();
@@ -99,15 +103,15 @@ void WaveManager::updateTrigger(int value)
 {
 	if (value == 0)
 	{
-		if (wave1.size() > 0 && curStage == Stage::Stage1)
+		if (wave1.size() > 0 && curStage == Wave::wave1)
 		{
 			moveSpawnTrigger(spawnTrigger.left + spawnTrigger.width);
 		}
-		else if (wave2.size() > 0 && curStage == Stage::Stage2)
+		else if (wave2.size() > 0 && curStage == Wave::wave2)
 		{
 			moveSpawnTrigger(spawnTrigger.left + spawnTrigger.width);
 		}
-		else if (wave3.size() > 0 && curStage == Stage::Stage3)
+		else if (wave3.size() > 0 && curStage == Wave::wave3)
 		{
 			moveSpawnTrigger(spawnTrigger.left + spawnTrigger.width);
 		}
@@ -141,7 +145,7 @@ void WaveManager::setSpawnPos(int x, int y)
 
 void  WaveManager::setCurStage(int value)
 {
-	if (value <= Stage::Stage3)
+	if (value <= Wave::wave3)
 	{
 		curStage = value;
 	}

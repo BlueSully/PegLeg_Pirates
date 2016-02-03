@@ -34,17 +34,13 @@
 //Controls Press Y on the Keyboard for WASD Controls / Press U on the Keyboard for UP,DOWN,LEFT,RIGHT Controls
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Pegleg Priates");
+	sf::RenderWindow window(sf::VideoMode(1000, 600, 32), "Pegleg Priates");
 	sf::Clock clock;
 	
-	//FMOD::System *FMODsys; //will point to the FMOD system
-
-	//FMOD_RESULT result;
-
 	SceneManager ManagerScreen(window);
 
 	bool pressed = false;
-	ManagerScreen.setIndex(Screens::GameOverScreen);
+	ManagerScreen.setIndex(Screens::TitleScreen);
 
 	while (window.isOpen())
 	{
@@ -56,24 +52,21 @@ int main()
 			if (Event.type == sf::Event::Closed){
 				window.close();
 			}
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape)){
-				window.close();
-			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed){
-			ManagerScreen.setIndex(ManagerScreen.getIndex() + 1);
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed)
+		{
+			//ManagerScreen.setIndex(ManagerScreen.getIndex() + 1);
 			pressed = true;
-			if (ManagerScreen.getIndex() > Screens::GameOverScreen)
-				ManagerScreen.setIndex(Screens::TitleScreen);
-
+			//if (ManagerScreen.getIndex() > Screens::GameOverScreen)
+			//	ManagerScreen.setIndex(Screens::TitleScreen);
 		}
-		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+		{			
 			pressed = false;
 		}
-
-		ManagerScreen.update(elapsedTime);
+		 
+		ManagerScreen.update(&Event, elapsedTime);
 
 		window.clear();
 		ManagerScreen.draw();

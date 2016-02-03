@@ -2,11 +2,7 @@
 #define MENUSCENE_H
 
 #include "stdafx.h"
-
-enum Menus
-{
-	Title,Main,GameOver
-};
+#include "Controller.h"
 
 class MenuScene
 {
@@ -16,22 +12,27 @@ private:
 	sf::Texture m_GameOver;
 	sf::Texture m_Flame;
 	sf::Font font;
-	sf::Text menuItem1;
-	sf::Text menuItem2;
-	sf::Text menuItem3;
-	sf::Text menuItem4 [2];
-
+	sf::Text TitleItem1;
+	sf::Text menuItem1, menuItem2, menuItem3;
+	sf::Text levEndItem4 [2];
+	bool keyPressed = false;
 	int flamecount = 10;
 	int frameCount = 0;
 	float elapsedtime;
+	int highlighted;
 	sf::Sprite m_Menusprite;
 	sf::Sprite m_Flagsprite;
 	sf::Sprite m_Flamesprite[10];
 	
+
+	Controller * controller;
+
 public:
 	MenuScene();
+	MenuScene(sf::Vector2u windowSize, int index = 0);
+	~MenuScene();
 	void initMenu(sf::Vector2u windowSize, int index = 0);
-	void MenuUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
+	int MenuUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time elapsedTime, sf::Vector2u windowSize, int index);
 	void MenuUnload(int index);
 	void MenuDraw(sf::RenderWindow * window, int);
 };

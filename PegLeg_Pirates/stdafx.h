@@ -19,36 +19,26 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 
-using namespace sf;
-
-enum Screens {
+enum Screens
+{
 	TitleScreen,
 	MenuScreen,
 	OptionScreen,
-	LevelSel,
+	LevelComplete,
 	GameScreen,
-	GameOverScreen
+	GameOverScreen,
+	LevelSel,
 };
 
-enum EntityType {
-	PlayerEntity,
-	EnemyEntity,
-	BossEntity,
-	ObjectEntity
+enum Wave 
+{
+	wave1,
+	wave2,
+	wave3,
+	bossWave
 };
 
-enum Stage {
-	Stage1,
-	Stage2,
-	Stage3
-};
 
-enum EnemyType {
-	Sword,
-	Gun,
-	Bruiser,
-	Boss
-};
 
 
 // TODO: reference additional headers your program requires here

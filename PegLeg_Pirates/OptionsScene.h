@@ -9,15 +9,18 @@ private:
 	sf::Font font;
 	sf::Text menuItem1;
 	sf::Text menuItem2;
-	sf::Text menuItem3;
-
+	int highlighted;
+	int maxbuttons = 2;
+	bool keyPressed = false;
 	sf::Sprite m_Menusprite;
 
 public:
 	//MAIN
 	OptionsScene();
+	OptionsScene(sf::Vector2u windowSize);
+	~OptionsScene();
 	void initOptions(sf::Vector2u windowSize);
-	void OptionsUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
+	int OptionsUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time elapsedTime, sf::Vector2u windowSize);
 	void OptionsUnload();
 	void OptionsDraw(sf::RenderWindow * window);
 };

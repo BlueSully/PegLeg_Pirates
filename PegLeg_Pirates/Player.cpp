@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player::Player()
 {
 
@@ -47,7 +46,6 @@ void Player::initSoundEngine(FMOD::System *FMODsys, FMOD_RESULT *result)
 	*resultFMOD = sysFMOD->createSound("Music/SFX/woosh_miss.wav", FMOD_LOOP_OFF | FMOD_2D, 0, &swordWoosh);
 	*resultFMOD = sysFMOD->createSound("Music/SFX/Gunshot.wav", FMOD_LOOP_OFF | FMOD_2D, 0, &gunShot);
 }
-
 
 int Player::getHitDamage()
 {

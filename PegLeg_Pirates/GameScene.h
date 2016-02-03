@@ -5,6 +5,14 @@
 #include "ProjectileManager.h"
 #include "waveManager.h"
 
+enum EnemyType
+{
+	Sword,
+	Gun,
+	Bruiser,
+	Boss
+};
+
 class GameScene
 {
 private:
@@ -59,6 +67,8 @@ private:
 
 public:
 	GameScene();
+	GameScene(sf::Vector2u windowSize);
+	~GameScene();
 	void initGame(sf::Vector2u windowSize);
 	void initEnemy(sf::Vector2u windowSize);
 	void enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);

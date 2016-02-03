@@ -1,14 +1,33 @@
 #include "ProjectileManager.h"
 
+enum EntityType
+{
+	PlayerEntity,
+	EnemyEntity,
+	BossEntity,
+	ObjectEntity
+};
+
 ProjectileManager::ProjectileManager()
 {
-
+	enemybulletArray.reserve(25);
+	playerbulletArray.reserve(25);
 }
 
 ProjectileManager::~ProjectileManager()
 {
-	enemybulletArray.reserve(25);
-	playerbulletArray.reserve(25);
+	std::cout << "ProjectileManager DESTROYED" << std::endl;
+	for (std::vector<Projectile *>::const_iterator it = playerbulletArray.begin(); it != playerbulletArray.end(); it++)
+	{
+		delete *it;
+	}
+	playerbulletArray.clear();
+
+	for (std::vector<Projectile *>::const_iterator it = enemybulletArray.begin(); it != enemybulletArray.end(); it++)
+	{
+		delete *it;
+	}
+	enemybulletArray.clear();
 }
 
 std::vector<Projectile*> ProjectileManager::getEnemyBulletArray()
@@ -88,19 +107,17 @@ void ProjectileManager::update(sf::Time deltatime)
 		enemybulletArray[i]->update(deltatime);
 		if (!enemybulletArray[i]->isAlive() || enemybulletArray[i]->getCollide() == true)
 		{
-			enemybulletArray.erase(std::remove(enemybulletArray.begin(), enemybulletArray.end(),
-				enemybulletArray[i]), enemybulletArray.end());
+			//enemybulletArray.erase(std::remove(enemybulletArray.begin(), enemybulletArray.end(),
+			//	enemybulletArray[i]), enemybulletArray.end());
 			break;
 		}
 	}
-	for (size_t i = 0; i < playerbulletArray.size(); i++)
+	for (std::vector<Projectile *>::const_iterator it = playerbulletArray.begin(); it < playerbulletArray.end(); it++)
 	{
-		playerbulletArray[i]->update(deltatime);
-		if (!playerbulletArray[i]->isAlive() || playerbulletArray[i]->getCollide() == true)
+		(*it)->update(deltatime);
+		if (!(*it)->isAlive() || (*it)->getCollide() == true)
 		{
-			playerbulletArray.erase(std::remove(playerbulletArray.begin(), playerbulletArray.end(), 
-			playerbulletArray[i]), playerbulletArray.end());
-			break;
+			//playerbulletArray.erase((*it));
 		}
 	}
 	

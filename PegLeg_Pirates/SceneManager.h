@@ -8,10 +8,10 @@
 #include "OptionsScene.h"
 #include "LevelSelect.h"
 
-class SceneManager{
+class SceneManager
+{
 private:
 	int m_sceneIndex;//Holds what screen is 
-	sf::CircleShape c1, c2, c3, c4;//testers circles
 	sf::RenderWindow * m_screenWindow;
 	sf::Texture m_mainText;
 	sf::Font font;
@@ -21,23 +21,20 @@ private:
 	
 	sf::Sprite m_Menusprite;
 
-	GameScene game;
-	MenuScene menu;
-	OptionsScene options;
+	GameScene* game;
+	MenuScene* menu;
+	OptionsScene* options;
 	LevelSelect levelSelect;
 	
 public:
 	SceneManager();
 	SceneManager(sf::RenderWindow &window);
-
+	~SceneManager();
 	int getIndex();
 	void setIndex(int value);
 
-	//SceneManager Methods
 	void checkindex();
-	void initSoundEngine();
-
-	void update(sf::Time elapsedTime);
+	void update(sf::Event * evt, sf::Time elapsedTime);
 	void draw();
 };
 

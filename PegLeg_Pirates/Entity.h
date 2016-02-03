@@ -3,6 +3,14 @@
 
 #include "stdafx.h"
 
+enum EntityType
+{
+	PlayerEntity,
+	EnemyEntity,
+	BossEntity,
+	ObjectEntity
+};
+
 class Entity
 {
 protected:
