@@ -102,25 +102,34 @@ bool ProjectileManager::checkBullet(Projectile* bullet, sf::Vector2f targetbodyP
 
 void ProjectileManager::update(sf::Time deltatime)
 {
-	for (size_t i = 0; i < enemybulletArray.size(); i++)
+	//Deletion of Projectiles
+	std::vector<Projectile *>::iterator enemyiter = enemybulletArray.begin();
+	while (enemyiter != enemybulletArray.end())
 	{
-		enemybulletArray[i]->update(deltatime);
-		if (!enemybulletArray[i]->isAlive() || enemybulletArray[i]->getCollide() == true)
+		(*enemyiter)->update(deltatime);
+		if (!(*enemyiter)->isAlive() || (*enemyiter)->getCollide() == true)
 		{
-			//enemybulletArray.erase(std::remove(enemybulletArray.begin(), enemybulletArray.end(),
-			//	enemybulletArray[i]), enemybulletArray.end());
-			break;
+			enemyiter = enemybulletArray.erase(enemyiter);
+		}
+		else
+		{
+			++enemyiter;
 		}
 	}
-	for (std::vector<Projectile *>::const_iterator it = playerbulletArray.begin(); it < playerbulletArray.end(); it++)
+
+	std::vector<Projectile *>::iterator playeriter = playerbulletArray.begin();
+	while (playeriter != playerbulletArray.end())
 	{
-		(*it)->update(deltatime);
-		if (!(*it)->isAlive() || (*it)->getCollide() == true)
+		(*playeriter)->update(deltatime);
+		if (!(*playeriter)->isAlive() || (*playeriter)->getCollide() == true)
 		{
-			//playerbulletArray.erase((*it));
+			playeriter = playerbulletArray.erase(playeriter);
+		}
+		else
+		{
+			++playeriter;
 		}
 	}
-	
 }
 
 void ProjectileManager::draw(sf::RenderWindow * window)

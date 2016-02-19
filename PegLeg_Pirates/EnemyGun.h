@@ -7,6 +7,7 @@
 
 class EnemyGun : public Entity{
 private:
+	AnimationManager animationM;
 	int m_offsetpixelsX;
 	bool m_attackSideRight = true;
 	bool m_activated = false;

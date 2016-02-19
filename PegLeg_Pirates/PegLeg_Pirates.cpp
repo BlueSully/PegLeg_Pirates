@@ -31,16 +31,20 @@
 //#include "fmod.hpp"
 //#include "fmod_errors.h"
 
-//Controls Press Y on the Keyboard for WASD Controls / Press U on the Keyboard for UP,DOWN,LEFT,RIGHT Controls
+//Controls 
+// Up, down, left, right: Movement
+// Z: Enter
+// X: Shoot/Back
+// C: Heavy attack
+// V: light attack
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1000, 600, 32), "Pegleg Priates");
+	
+	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Pegleg Priates");
 	sf::Clock clock;
 	
 	SceneManager ManagerScreen(window);
-
-	bool pressed = false;
-	ManagerScreen.setIndex(Screens::TitleScreen);
+	ManagerScreen.setIndex(Screens::GameScreen);
 
 	while (window.isOpen())
 	{
@@ -52,18 +56,6 @@ int main()
 			if (Event.type == sf::Event::Closed){
 				window.close();
 			}
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pressed)
-		{
-			//ManagerScreen.setIndex(ManagerScreen.getIndex() + 1);
-			pressed = true;
-			//if (ManagerScreen.getIndex() > Screens::GameOverScreen)
-			//	ManagerScreen.setIndex(Screens::TitleScreen);
-		}
-		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-		{			
-			pressed = false;
 		}
 		 
 		ManagerScreen.update(&Event, elapsedTime);

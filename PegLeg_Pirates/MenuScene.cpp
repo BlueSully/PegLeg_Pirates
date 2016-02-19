@@ -9,13 +9,11 @@ MenuScene::MenuScene()
 
 MenuScene::MenuScene(sf::Vector2u windowSize, int index)
 {
-	controller = new Controller();
 	initMenu(windowSize, index);
 }
 
 MenuScene::~MenuScene()
 {
-	delete controller;
 	std::cout << "MenuScene Destroyed" << std::endl;
 }
 
@@ -117,15 +115,6 @@ int MenuScene::MenuUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time ela
 	}
 	else if (index == MenuScreen)
 	{
-		//if (controller->HandleInput(evt, sf::Keyboard::Down))
-		//{
-		//	highlighted++;
-
-		//	if (highlighted > 2)
-		//	{
-		//		highlighted = 0;
-		//	}
-		//}
 		if ((evt->type == sf::Event::TextEntered || evt->type == sf::Event::KeyPressed) && keyPressed == false)
 		{
 			keyPressed = true;

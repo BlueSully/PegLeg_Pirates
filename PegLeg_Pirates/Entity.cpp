@@ -5,6 +5,7 @@ Entity::Entity()
 	m_isAttacking = false;
 	m_canHit = false;
 	m_invTime = 0;
+
 }
 
 sf::Vector2f Entity::getPos()
@@ -64,14 +65,19 @@ bool Entity::isHit()
 	return m_isHit;
 }
 
+bool Entity::canHit()
+{
+	return m_canHit;
+}
+
 void Entity::setIsHit(bool value)
 {
 	m_isHit = value;
 }
 
-bool Entity::canHit()
+void Entity::setMaxHealth(int value)
 {
-	return m_canHit;
+	m_maxHealth = value;
 }
 
 void Entity::setCanHit(bool value)
@@ -115,6 +121,10 @@ void Entity::updateHealth(int value)
 			m_isHit = false;
 		}
 		else if (value > 0)
+		{
+			m_health += value;
+		}
+		else if (m_health + value > 0)
 		{
 			m_health += value;
 		}

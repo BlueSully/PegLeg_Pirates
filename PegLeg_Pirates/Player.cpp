@@ -5,19 +5,25 @@ Player::Player()
 
 }
 
+Player::~Player()
+{
+
+}
+
 Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsys, FMOD_RESULT *result, sf::Texture & bodySprite, sf::Texture & shadowSprite, sf::Texture & melee) : m_playerPos(value)
 {
 	name = "Player";
 	m_speed = 125;//pixels wished to move
-	m_body = sf::Sprite(bodySprite, sf::IntRect(1, 1, 65, 58));
-	m_body.setPosition(m_playerPos);
-	m_bodyWidth = 50;
+	m_bodyWidth = 65;
 	m_bodyHeight = 58;
+	m_body = sf::Sprite(bodySprite, sf::IntRect(1, 1, m_bodyWidth, m_bodyHeight));
+	m_body.setPosition(m_playerPos);
+	
 	m_invTime = 1;
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
 
-	m_shadowWidth = (float)shadowSprite.getSize().x;
-	m_shadowHeight = (float)shadowSprite.getSize().y;
+	m_shadowWidth = (int)shadowSprite.getSize().x;
+	m_shadowHeight = (int)shadowSprite.getSize().y;
 
 	sysFMOD = FMODsys;
 	resultFMOD = result;
@@ -33,6 +39,7 @@ Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsy
 	sfxtoggled = true;
 	num1Pressed = false;
 	initSoundEngine(sysFMOD, resultFMOD);
+	setMaxHealth(100);
 }
 
 //~~~~~~~~~~~~~~~~~~~METHODS
@@ -104,7 +111,7 @@ void Player::attackMeleeController(sf::Time deltaTime)
 
 	if (!m_isAttacking)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && !m_lightAttackPressed)
+		if (lightAttack && !m_lightAttackPressed)
 		{
 			m_isAttacking = m_weakAttack = m_lightAttackPressed = true;
 			m_strongAttackPressed = m_strongAttack = false;
@@ -114,13 +121,12 @@ void Player::attackMeleeController(sf::Time deltaTime)
 				sysFMOD->playSound(FMOD_CHANNEL_FREE, swordWoosh, false, 0);
 			}
 		}
-		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+		else if (!lightAttack)
 		{
 			m_lightAttackPressed = false;
-			
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::G) && !m_strongAttackPressed)
+		if (heavyAttack && !m_strongAttackPressed)
 		{
 			m_weakAttack = m_lightAttackPressed = false;
 			m_isAttacking = m_strongAttackPressed = true;
@@ -128,7 +134,7 @@ void Player::attackMeleeController(sf::Time deltaTime)
 			m_weapon.setColor(sf::Color::Green);
 			
 		}
-		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+		else if (!heavyAttack)
 		{
 			m_strongAttackPressed = false;
 		}
@@ -162,7 +168,7 @@ void Player::attackMeleeController(sf::Time deltaTime)
 
 void Player::attackRangedController(sf::Time deltaTime, ProjectileManager* manager)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && m_firedGun == false)
+	if (shoot && m_firedGun == false)
 	{
 		m_firedGun = true;
 		float projectileVec;
@@ -177,31 +183,15 @@ void Player::attackRangedController(sf::Time deltaTime, ProjectileManager* manag
 		manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2, getPos().y + getSize().y / 2), projectileVec, EntityType::PlayerEntity);
 		sysFMOD->playSound(FMOD_CHANNEL_FREE, gunShot, false, 0);
 	}
-	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	else if (!shoot)
 	{
 		m_firedGun = false;
 	}
 }
 
-void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f window)
+void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f window, sf::IntRect viewportRect)
 {
 	float m_tempSpeed = m_speed * deltaTime.asSeconds();
-	bool left, right, up, down;
-
-	if (controlType == 'A')
-	{
-		left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-		right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-		up = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
-		down = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
-	}
-	else if (controlType == 'B')
-	{
-		left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-		right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-		up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-		down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-	}
 
 	if (left && (int)m_shadow.getPosition().x > 0)
 	{
@@ -214,8 +204,9 @@ void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f w
 			m_body.move(-m_tempSpeed / 2, 0);
 		}
 	}
-	else if (right)
+	else if (right && (int)(m_shadow.getPosition().x + m_shadowWidth) < (int)(viewportRect.left + viewportRect.width))
 	{
+		
 		if (!m_isJumping)
 		{
 			m_body.move(m_tempSpeed, 0);
@@ -225,8 +216,8 @@ void Player::moveController(sf::Time deltaTime, char controlType, sf::Vector2f w
 			m_body.move(m_tempSpeed / 2, 0);
 		}
 	}
-	
-	if (up && (int)m_shadow.getPosition().y >(int)window.y / 2)
+
+	if (up && (int)m_shadow.getPosition().y > (int)window.y / 2)
 	{
 		if (!m_isJumping){
 			m_body.move(0, -m_tempSpeed);
@@ -268,7 +259,7 @@ void Player::jumpController(sf::Time deltaTime)
 
 	if (m_jumpPressed == false && m_isJumping == false)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_strongAttack)
+		if (jump && !m_strongAttack)
 		{
 			m_jumpVec = jumpheight;
 			m_isJumping = m_jumpPressed = true;
@@ -276,7 +267,7 @@ void Player::jumpController(sf::Time deltaTime)
 	}
 	else
 	{
-		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		if (!jump)
 		{
 			m_jumpPressed = false;
 		}
@@ -298,17 +289,20 @@ void Player::jumpController(sf::Time deltaTime)
 	}
 }
 
-void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager)
+void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager, sf::IntRect viewportRect)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-	{
-		controlType = 'A';
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::U))
-	{
-		controlType = 'B';
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
+	//Updating controllers
+	left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+	up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+	down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+	lightAttack = sf::Keyboard::isKeyPressed(sf::Keyboard::V);
+	heavyAttack = sf::Keyboard::isKeyPressed(sf::Keyboard::C);
+	jump = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+	enter = sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
+	shoot = sf::Keyboard::isKeyPressed(sf::Keyboard::X);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
 	{
 		m_health = 100;
 	}
@@ -338,11 +332,11 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *
 
 	if (!m_isAttacking)
 	{
-		moveController(deltaTime, controlType, window);
+		moveController(deltaTime, controlType, window, viewportRect);
 	}
 	else if (m_isJumping)
 	{
-		moveController(deltaTime, controlType, window);
+		moveController(deltaTime, controlType, window, viewportRect);
 	}
 
 	attackMeleeController(deltaTime);
@@ -355,6 +349,11 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *
 	if (m_health > 0)
 	{
 		setAlive(true);
+	}
+
+	if (!(left && right && up && down && lightAttack && heavyAttack && jump && enter && shoot))
+	{
+		animationM.Update(3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 	}
 
 	m_body.move(sf::Vector2f(0, -m_jumpVec * deltaTime.asSeconds()));//updating jump
@@ -370,6 +369,8 @@ void Player::draw(sf::RenderWindow * window)
 	shp.setPosition(sf::Vector2f(m_playerPos.x, m_playerPos.y -20));
 	shp.setSize(sf::Vector2f((float)(getHealth() / 2), (float)(20)));
 	
+	m_body.setTextureRect(sf::IntRect(animationM.getFrame().first.x, animationM.getFrame().first.y, 
+									  animationM.getFrame().second.x, animationM.getFrame().second.y));
 	window->draw(m_shadow);
 	window->draw(m_body);
 	window->draw(shp);
@@ -379,4 +380,3 @@ void Player::draw(sf::RenderWindow * window)
 		window->draw(m_weapon);//weapon for debugging purpose
 	}
 }
-

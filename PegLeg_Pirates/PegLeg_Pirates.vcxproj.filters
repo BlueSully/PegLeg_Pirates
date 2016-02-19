@@ -18,109 +18,103 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\EnemyGun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\EnemySword.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\GameScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\LevelSelect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\MenuScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\OptionsScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Projectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\ProjectileManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\sound.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\WaveManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="EnemyGun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySword.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PegLeg_Pirates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="waveManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\EnemyGun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\EnemySword.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\GameScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\LevelSelect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\MenuScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\OptionsScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\PegLeg_Pirates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\Projectile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\ProjectileManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\sound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Anthony O%27Sullivan\Desktop\pegleg_pirateGit\PegLeg_Pirates\waveManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="EnemyGun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ class Player : public Entity{
 private:
 	sf::Vector2f m_playerPos;
 	char controlType = 'A';
+	AnimationManager animationM;
 	float m_jumpVec = 0;//jump velocity
 	float m_oldjump = 0;//last position of the jump
 	float m_tempJump = 0; //temp value for jump height and move speed
@@ -22,6 +23,8 @@ private:
 	float m_invTime;
 	bool m_firedGun = false;
 
+	bool left, right, up, down, lightAttack, heavyAttack, jump, enter, shoot;//keyboard
+
 	sf::Vector2f m_weaponSize;
 
 	FMOD::Channel *channelFMOD;
@@ -35,7 +38,7 @@ private:
 public:
 	Player();
 	Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsys, FMOD_RESULT *result, sf::Texture & bodySprite, sf::Texture & shadowSprite, sf::Texture & melee);
-
+	~Player();
 	bool isAlive();
 	int getHitDamage();
 
@@ -46,9 +49,9 @@ public:
 	bool checkCollisionAttack(sf::Vector2f targetpos, sf::Vector2f targetsize);
 	void attackMeleeController(sf::Time deltaTime);
 	void attackRangedController(sf::Time deltaTime, ProjectileManager *manager);
-	void moveController(sf::Time deltaTime, char controlType, sf::Vector2f window);
+	void moveController(sf::Time deltaTime, char controlType, sf::Vector2f window, sf::IntRect viewportRect);
 	void jumpController(sf::Time deltaTime);
-	void update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager);
+	void update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *manager, sf::IntRect viewportRect);
 	virtual void draw(sf::RenderWindow * window);
 };
 

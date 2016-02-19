@@ -120,11 +120,11 @@ void WaveManager::updateTrigger(int value)
 
 void WaveManager::addToWave(Entity * enemy, int indexWave)
 {
-	if (indexWave == 1 && wave1.size() != wave1Size)
+	if (wave1.size() != wave1Size)
 	{
 		wave1.push_back(enemy);
 	}
-	else if (indexWave == 2 && wave2.size() != wave2Size)
+	else if (wave2.size() != wave2Size)
 	{
 		wave2.push_back(enemy);
 	}

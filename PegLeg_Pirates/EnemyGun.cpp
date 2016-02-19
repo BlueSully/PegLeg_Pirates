@@ -33,9 +33,12 @@ void EnemyGun::setPos(sf::Vector2f value)
 
 void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Texture & shadowSprite, sf::Texture & weaponSprite, int index)
 {
-	name = "Enemy" + index;
+	name = "Gun";
 	m_pos = value;
 	orgColour = sf::Color(0, 255, 255, 125);
+
+	m_bodyWidth = (int)bodySprite.getSize().x;
+	m_bodyHeight = (int)bodySprite.getSize().y;
 	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)bodySprite.getSize().x, (int)bodySprite.getSize().y));
 	m_body.setPosition(m_pos);
 	m_body.setColor(orgColour);
@@ -44,8 +47,8 @@ void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Tex
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
 	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
 
-	m_shadowWidth = (float)shadowSprite.getSize().x;
-	m_shadowHeight = (float)shadowSprite.getSize().y;
+	m_shadowWidth = (int)shadowSprite.getSize().x;
+	m_shadowHeight = (int)shadowSprite.getSize().y;
 
 	m_weapon = sf::Sprite(weaponSprite, sf::IntRect(0, 0, (int)weaponSprite.getSize().x, (int)weaponSprite.getSize().y));
 	m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - 25, m_body.getPosition().y + m_bodyHeight / 2));
@@ -60,6 +63,7 @@ void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Tex
 	setHitCoolDown(0);
 	timeToAttack = (float)(rand() % 5 + 3);
 	m_health = 100;
+	setMaxHealth(100);
 }
 
 void EnemyGun::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, ProjectileManager *manager)
@@ -89,6 +93,8 @@ void EnemyGun::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector
 		m_isAttacking = false;
 
 	moveToward(deltaTime, targetbodyPos, targetbodysize, targetbasePos, targetbaseSize);
+
+	animationM.Update(0, 0, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 
 	setPos(m_pos);
 	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
@@ -149,6 +155,8 @@ void EnemyGun::changeColour()
 
 void EnemyGun::draw(sf::RenderWindow * window)
 {
+	m_body.setTextureRect(sf::IntRect((int)animationM.getFrame().first.x, (int)animationM.getFrame().first.y,
+									  (int)animationM.getFrame().second.x, (int)animationM.getFrame().second.y));
 	//Drawing 
 	window->draw(m_shadow);
 	window->draw(m_body);

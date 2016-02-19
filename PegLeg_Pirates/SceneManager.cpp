@@ -53,7 +53,7 @@ void SceneManager::update(sf::Event * evt, sf::Time elapsedTime)
 	int sceneValue = 0;
 	if (getIndex() == Screens::GameScreen)
 	{
-		game->gameUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+		sceneValue = game->gameUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
 	}
 	else if (getIndex() == Screens::TitleScreen)
 	{
@@ -71,6 +71,11 @@ void SceneManager::update(sf::Event * evt, sf::Time elapsedTime)
 	{
 		sceneValue = menu->MenuUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()), Screens::GameOverScreen);
 	}
+	else if (getIndex() == Screens::LevelSel)
+	{
+		sceneValue = levelSelect.LevelSelectUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+	}
+
 	if (sceneValue != -1)
 	{
 		if (sceneValue > 0)

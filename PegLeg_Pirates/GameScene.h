@@ -19,6 +19,7 @@ private:
 	sf::RenderWindow * m_screenWindow;
 
 	sf::View camera;
+
 	int killCount;
 	int activeCount = 0;
 
@@ -35,11 +36,14 @@ private:
 	bool can3DsoundPlay;
 
 	sf::RectangleShape viewport;
+	sf::IntRect viewportRect;
 
 	// Declare and load a texture
-	sf::Texture m_playerSprite;
-	sf::Texture m_floor, m_playerbody, m_shadow, m_meleeWeapon;
-	sf::Sprite m_sprite;
+	sf::Texture m_floorTex, m_railTex, m_skyTex;
+	sf::Texture m_playerSprite, m_playerbody, m_shadow, m_meleeWeapon;
+
+	sf::Texture m_meleeTex;
+	sf::Sprite m_Deck, m_Railing, m_Sky;
 
 	//Entities and entity controllers
 	Player player;
@@ -69,13 +73,18 @@ public:
 	GameScene();
 	GameScene(sf::Vector2u windowSize);
 	~GameScene();
+
 	void initGame(sf::Vector2u windowSize);
 	void initEnemy(sf::Vector2u windowSize);
-	void enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
-	void GameScene::initSoundEngine();
+	
+	void initSoundEngine();
 	void audioControls();
 
-	void gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
+
+	int gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
+	void enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::IntRect viewportRect);
+	void waveUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
+
 	void gameUnload();
 	void gameDraw(sf::RenderWindow * window);
 

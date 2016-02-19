@@ -2,7 +2,6 @@
 #define MENUSCENE_H
 
 #include "stdafx.h"
-#include "Controller.h"
 
 class MenuScene
 {
@@ -23,9 +22,6 @@ private:
 	sf::Sprite m_Menusprite;
 	sf::Sprite m_Flagsprite;
 	sf::Sprite m_Flamesprite[10];
-	
-
-	Controller * controller;
 
 public:
 	MenuScene();

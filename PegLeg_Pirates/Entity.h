@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "stdafx.h"
+#include "AnimationManager.h"
 
 enum EntityType
 {
@@ -22,10 +23,10 @@ protected:
 	sf::Sprite m_weapon;
 
 	float m_invTime;
-	float m_bodyHeight;
-	float m_bodyWidth;
-	float m_shadowHeight;
-	float m_shadowWidth;
+	int m_bodyHeight;
+	int m_bodyWidth;
+	int m_shadowHeight;
+	int m_shadowWidth;
 
 	bool m_isAttacking;
 	bool m_activated;
@@ -33,6 +34,7 @@ protected:
 	bool m_canHit;
 	bool m_alive;
 	int m_health;
+	int m_maxHealth;
 
 public:
 	Entity();
@@ -54,6 +56,7 @@ public:
 
 	//set methods
 	virtual void setIsHit(bool value);
+	virtual void setMaxHealth(int value);
 	virtual void setCanHit(bool value);
 	virtual void setPos(sf::Vector2f value);
 	virtual void setPosX(float x);
