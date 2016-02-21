@@ -15,7 +15,7 @@ void LevelSelect::initLevelSelect(sf::Vector2u windowSize)
 
 	m_Ship.loadFromFile("Sprites/MapShip.png");
 	m_Shipsprite.setTexture(m_Ship);
-	m_Shipsprite.setScale(0.7, 0.7);
+	m_Shipsprite.setScale(0.7f, 0.7f);
 
 	m_mapTex.loadFromFile("Sprites/worldMap.png");
 	m_MapSprite.setTexture(m_mapTex);

@@ -7,7 +7,6 @@ EnemySword::EnemySword()
 
 EnemySword::~EnemySword()
 {
-
 }
 
 bool EnemySword::getAttack()
@@ -40,18 +39,18 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 	m_bodyHeight = 55;
 	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)m_bodyWidth, (int)m_bodyHeight));
 	m_body.setPosition(m_pos);
+	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
 
-
-	m_offsetpixelsX = 3;
+	m_offsetpixelsX = 8;
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
-	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
+	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_bodyHeight) - m_shadow.getTexture()->getSize().y / 2));
 
 	m_shadowWidth = (int)shadowSprite.getSize().x;
 	m_shadowHeight = (int)shadowSprite.getSize().y;
 
 	m_weapon = sf::Sprite(weaponSprite, sf::IntRect(0, 0, (int)weaponSprite.getSize().x, (int)weaponSprite.getSize().y));
 	m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - 25, m_body.getPosition().y + m_bodyHeight / 2)); 
-	setSize(sf::Vector2f((float)bodySprite.getSize().x, (float)bodySprite.getSize().y));
+	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
 	m_weaponSize = sf::Vector2f((float)weaponSprite.getSize().x, (float)weaponSprite.getSize().y);
 
 	m_isAttacking = false;
@@ -113,11 +112,14 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 	}
 
 	moveToward(deltaTime, targetbodyPos, targetbodysize, targetbasePos, targetbaseSize, viewport);
-		
-	animationM.Update(3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+
+	std::pair<sf::IntRect, bool> animation;
+	animation = animationM.Update(m_NumbodySprites, 3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+
+	m_body.setTextureRect(animation.first);//still left
 
 	setPos(m_pos);
-	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
+	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_bodyHeight) - m_shadow.getTexture()->getSize().y / 2));
 }
 
 void EnemySword::moveToward(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, sf::IntRect viewport)
@@ -177,8 +179,7 @@ void EnemySword::changeColour()
 void EnemySword::draw(sf::RenderWindow * window)
 {
 
-	m_body.setTextureRect(sf::IntRect((int)animationM.getFrame().first.x, (int)animationM.getFrame().first.y,
-		(int)animationM.getFrame().second.x, (int)animationM.getFrame().second.y));
+	
 	//Drawing 
 	window->draw(m_shadow);
 	window->draw(m_body);

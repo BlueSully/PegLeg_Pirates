@@ -13,9 +13,12 @@ Projectile::Projectile(sf::Vector2f pos, float velo)
 	m_pos = pos;
 	m_vel = velo;
 	m_alive = true;	
-	radius = 5;
+	radius = 3;
 	m_ttl = 5;
 	m_image = sf::CircleShape(radius, 6);
+	m_image.setFillColor(sf::Color(190, 190, 190, 255));
+	m_image.setOutlineThickness(1);
+	m_image.setOutlineColor(sf::Color::Black);
 }
 
 bool Projectile::isAlive()

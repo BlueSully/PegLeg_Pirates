@@ -13,12 +13,16 @@ Player::~Player()
 Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsys, FMOD_RESULT *result, sf::Texture & bodySprite, sf::Texture & shadowSprite, sf::Texture & melee) : m_playerPos(value)
 {
 	name = "Player";
+
 	m_speed = 125;//pixels wished to move
+	m_NumbodySprites = 5*10;
 	m_bodyWidth = 65;
 	m_bodyHeight = 58;
 	m_body = sf::Sprite(bodySprite, sf::IntRect(1, 1, m_bodyWidth, m_bodyHeight));
 	m_body.setPosition(m_playerPos);
-	
+
+	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
+
 	m_invTime = 1;
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
 
@@ -100,56 +104,54 @@ void Player::attackMeleeController(sf::Time deltaTime)
 {
 	if (m_facingRight)
 	{
-		m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - 25, m_body.getPosition().y + m_bodyHeight / 2));
-		m_body.setTextureRect(sf::IntRect(1, (58 * 4) + 5, 65, 58));
+		m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth, m_body.getPosition().y + m_bodyHeight / 2));
 	}
 	else 
 	{
-		m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x - m_weaponSize.x + 25, m_body.getPosition().y + m_bodyHeight / 2));
-		m_body.setTextureRect(sf::IntRect(1, 1, 65, 58));
+		m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x - m_weaponSize.x, m_body.getPosition().y + m_bodyHeight / 2));
 	}
 
-	if (!m_isAttacking)
+	if (lightAttack && !m_lightAttackPressed && !m_lightAtkAnimation)
 	{
-		if (lightAttack && !m_lightAttackPressed)
+		m_lightAtkAnimation = m_isAttacking = m_weakAttack = m_lightAttackPressed = true;
+		m_strongAtkingAnimation = m_strongAttackPressed = m_strongAttack = false;
+		m_weapon.setColor(sf::Color::Magenta);
+		framecount = 0;
+		if (sfxtoggled)
 		{
-			m_isAttacking = m_weakAttack = m_lightAttackPressed = true;
-			m_strongAttackPressed = m_strongAttack = false;
-			m_weapon.setColor(sf::Color::Magenta);
-			if (sfxtoggled)
-			{
-				sysFMOD->playSound(FMOD_CHANNEL_FREE, swordWoosh, false, 0);
-			}
-		}
-		else if (!lightAttack)
-		{
-			m_lightAttackPressed = false;
-		}
-
-		if (heavyAttack && !m_strongAttackPressed)
-		{
-			m_weakAttack = m_lightAttackPressed = false;
-			m_isAttacking = m_strongAttackPressed = true;
-			m_hitboxLife = 0.4f;
-			m_weapon.setColor(sf::Color::Green);
-			
-		}
-		else if (!heavyAttack)
-		{
-			m_strongAttackPressed = false;
+			sysFMOD->playSound(FMOD_CHANNEL_FREE, swordWoosh, false, 0);
 		}
 	}
-	else if (m_isAttacking)
+	else if (!lightAttack)
+	{
+		m_lightAttackPressed = false;
+	}
+
+	if (heavyAttack && !m_strongAttackPressed && !m_strongAtkingAnimation)
+	{
+		m_lightAtkAnimation = m_weakAttack = m_lightAttackPressed = false;
+		m_strongAtkingAnimation = m_isAttacking = m_strongAttackPressed = true;
+		m_hitboxLife = 0.4f;
+		framecount = 0;
+		m_weapon.setColor(sf::Color::Green);
+
+	}
+	else if (!heavyAttack)
+	{
+		m_strongAttackPressed = false;
+	}
+	
+	if (m_isAttacking)
 	{
 		if (m_weakAttack)
 		{
 			m_hitboxLife -= deltaTime.asSeconds();
 		}
-		else if (m_strongAttackPressed)
+		else if (!m_strongAttackPressed)
 		{
 			m_strongwindUp -= deltaTime.asSeconds();
 
-			if (m_strongwindUp < 0)
+			if (m_strongwindUp < 0 || framecount == 3)
 			{
 				m_strongAttack = true;
 				m_hitboxLife -= deltaTime.asSeconds();//time for attack to be removed
@@ -171,6 +173,7 @@ void Player::attackRangedController(sf::Time deltaTime, ProjectileManager* manag
 	if (shoot && m_firedGun == false)
 	{
 		m_firedGun = true;
+		m_gunShootAnimation = true;
 		float projectileVec;
 		if (m_facingRight)
 		{
@@ -180,7 +183,15 @@ void Player::attackRangedController(sf::Time deltaTime, ProjectileManager* manag
 		{
 			projectileVec = -500;
 		}
-		manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2, getPos().y + getSize().y / 2), projectileVec, EntityType::PlayerEntity);
+		framecount = 0;
+		if (m_facingRight)
+		{
+			manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2 + 20, getPos().y + getSize().y / 2 - 11.f), projectileVec, EntityType::PlayerEntity);
+		}
+		else
+		{
+			manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2 - 20, getPos().y + getSize().y / 2 - 11.f), projectileVec, EntityType::PlayerEntity);
+		}
 		sysFMOD->playSound(FMOD_CHANNEL_FREE, gunShot, false, 0);
 	}
 	else if (!shoot)
@@ -351,10 +362,88 @@ void Player::update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *
 		setAlive(true);
 	}
 
-	if (!(left && right && up && down && lightAttack && heavyAttack && jump && enter && shoot))
+	std::pair<sf::IntRect, bool> animation;
+	
+	if (left && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
 	{
-		animationM.Update(3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		animation = animationM.Update(framecount, 5, 5, 1, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 	}
+	else if (right && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
+	{
+		animation = animationM.Update(framecount, 5, 5, 6, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+	}
+	else if (m_lightAtkAnimation)
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 4, 3, 8, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else 
+		{
+			animation = animationM.Update(framecount, 4, 3, 3, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		if (animation.second == true)
+		{
+			framecount = 0;
+			m_lightAtkAnimation = false;
+		}
+	}
+	else if (m_strongAtkingAnimation)
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 4, 4, 8, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime, m_strongAttackPressed, 1);
+		}
+		else
+		{
+			animation = animationM.Update(framecount, 4, 4, 3, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime, m_strongAttackPressed, 1);
+		}
+		if (animation.second == true)
+		{
+			framecount = 0;
+			m_strongAtkingAnimation = false;
+		}
+	}
+	else if (m_isJumping)
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 3, 3, 5, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime, true, 0);
+		}
+		else
+		{
+			animation = animationM.Update(framecount, 3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime, true, 0);
+		}
+	}
+	else if (m_gunShootAnimation)
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 2, 2, 7, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else
+		{
+			animation = animationM.Update(framecount, 2, 2, 2, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		if (animation.second == true)
+		{
+			framecount = 0;
+			m_gunShootAnimation = false;
+		}
+	}
+	else //standing still
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 3, 3, 5, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else
+		{
+			animation = animationM.Update(framecount, 3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+	}
+
+	m_body.setTextureRect(animation.first);
 
 	m_body.move(sf::Vector2f(0, -m_jumpVec * deltaTime.asSeconds()));//updating jump
 	m_playerPos = m_body.getPosition();
@@ -369,8 +458,7 @@ void Player::draw(sf::RenderWindow * window)
 	shp.setPosition(sf::Vector2f(m_playerPos.x, m_playerPos.y -20));
 	shp.setSize(sf::Vector2f((float)(getHealth() / 2), (float)(20)));
 	
-	m_body.setTextureRect(sf::IntRect(animationM.getFrame().first.x, animationM.getFrame().first.y, 
-									  animationM.getFrame().second.x, animationM.getFrame().second.y));
+	
 	window->draw(m_shadow);
 	window->draw(m_body);
 	window->draw(shp);

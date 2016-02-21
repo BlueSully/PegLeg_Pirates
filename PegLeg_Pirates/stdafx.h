@@ -4,11 +4,13 @@
 //
 
 #pragma once
-
 #include "targetver.h"
 
 #include "SFML/Graphics.hpp" 
 #include "SFML/OpenGL.hpp" 
+
+#include "AnimationManager.h"
+
 #include "sound.hpp"
 #include "fmod.hpp"
 #include "fmod_errors.h"
@@ -37,8 +39,5 @@ enum Wave
 	wave3,
 	bossWave
 };
-
-
-
 
 // TODO: reference additional headers your program requires here

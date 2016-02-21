@@ -1,6 +1,8 @@
-#pragma once
-#include "EnemySword.h"
+#ifndef WAVEMANAGER_H
+#define WAVEMANAGER_H
+
 #include "stdafx.h"
+#include "Entity.h"
 
 class WaveManager
 {
@@ -39,3 +41,5 @@ public:
 	void moveSpawnTrigger(int x);
 	
 };
+
+#endif

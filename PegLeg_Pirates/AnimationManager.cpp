@@ -8,44 +8,87 @@ AnimationManager::AnimationManager()
 
 AnimationManager::~AnimationManager()
 {
-	std::cout << "AnimationManager Destroyed" << std::endl;
+
 }
 
-std::pair<sf::Vector2f, sf::Vector2f> AnimationManager::getFrame()
+std::pair<sf::IntRect, bool> AnimationManager::Update(int &frame, int totalanimationFrames, int rowNum, int colNum, float speed, sf::Vector2f size, sf::Time deltatime)
 {
-	return std::make_pair(framePos, frameDim);
-}
-
-void AnimationManager::Update(int totalFrames, int rowNum, int colNum, float speed, sf::Vector2f size, sf::Time deltatime)
-{
-	m_numOfFrames = totalFrames;
+	m_frameCount = frame;
+	m_numOfFrames = totalanimationFrames;
 	m_rowNum = rowNum;
 	m_colNum = colNum;
 	frameDim = size;
+	m_finished = false;
+	if (m_numOfFrames != 0 )
+	{
+		if (elapsedtime > speed)
+		{
+			int row = 0;
+			int col = m_colNum;
+
+			if (m_rowNum != 0)
+				row = m_frameCount % m_rowNum;
+
+			framePos.x = ((1 + frameDim.x) * row) + 1;
+			framePos.y = ((1 + frameDim.y) * col) + 1;
+
+			m_frameCount++;
+			
+			elapsedtime = 0;
+			if (m_frameCount > m_numOfFrames)
+			{
+				m_frameCount = 0;
+				
+				m_finished = true;
+			}
+		}
+		elapsedtime += deltatime.asSeconds();
+	}
+
+	frame = m_frameCount;
+
+	return std::make_pair(sf::IntRect((int)framePos.x, (int)framePos.y, (int)frameDim.x, (int)frameDim.y), m_finished);
+}
+
+std::pair<sf::IntRect, bool> AnimationManager::Update(int &frame, int totalanimationFrames, int rowNum, int colNum, float speed, sf::Vector2f size, sf::Time deltatime, bool hold, int framenum)
+{
+	m_frameCount = frame;
+	m_numOfFrames = totalanimationFrames;
+	m_rowNum = rowNum;
+	m_colNum = colNum;
+	frameDim = size;
+	m_finished = false;
 	if (m_numOfFrames != 0)
 	{
 		if (elapsedtime > speed)
 		{
 			int row = 0;
-			int col = 0;
+			int col = m_colNum;
 
 			if (m_rowNum != 0)
 				row = m_frameCount % m_rowNum;
-			if (m_colNum != 0)
-				col = m_frameCount / m_colNum;
 
-			framePos.x = ((frameDim.x * row)) + 1;
-			framePos.y = ((frameDim.y * col)) + 1;
-			
-			m_frameCount++;
-			elapsedtime = 0;
-			if (m_frameCount > m_numOfFrames)
+			framePos.x = ((1 + frameDim.x) * row) + 1;
+			framePos.y = ((1 + frameDim.y) * col) + 1;
+
+			elapsedtime = 0;//reset time
+
+			if (hold == false || m_frameCount != framenum)
 			{
-				m_frameCount = 0;
+				m_frameCount++;
+				
+				if (m_frameCount > m_numOfFrames)
+				{
+					m_frameCount = 0;
+					m_finished = true;
+				}
 			}
 		}
 
 		elapsedtime += deltatime.asSeconds();
 	}
-}
 
+	frame = m_frameCount;
+
+	return std::make_pair(sf::IntRect((int)framePos.x, (int)framePos.y, (int)frameDim.x, (int)frameDim.y), m_finished);
+}

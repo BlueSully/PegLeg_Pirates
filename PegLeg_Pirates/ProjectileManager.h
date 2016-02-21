@@ -9,6 +9,7 @@ class ProjectileManager
 private:
 	std::vector<Projectile*> enemybulletArray;
 	std::vector<Projectile*> playerbulletArray;
+
 public:
 	ProjectileManager();
 	~ProjectileManager();

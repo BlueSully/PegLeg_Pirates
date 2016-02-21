@@ -1,7 +1,8 @@
 #ifndef LEVELSELECT_H
 #define LEVELSELECT_H
 
-#include "stdafx.h"
+#include "SFML/Graphics.hpp" 
+#include "SFML/OpenGL.hpp" 
 
 class LevelSelect
 {

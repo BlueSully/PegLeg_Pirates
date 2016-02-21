@@ -21,7 +21,16 @@ private:
 	bool m_facingRight = true;
 	int m_speed;
 	float m_invTime;
+	int framecount = 0;
 	bool m_firedGun = false;
+	bool m_lightAtkAnimation = false;
+	bool m_strongAtkingAnimation = false;
+	bool m_gunShootAnimation = false;
+	int m_NumbodySprites;
+	int m_bodyHeight;
+	int m_bodyWidth;
+	int m_shadowHeight;
+	int m_shadowWidth;
 
 	bool left, right, up, down, lightAttack, heavyAttack, jump, enter, shoot;//keyboard
 

@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #include "stdafx.h"
-#include "AnimationManager.h"
+
 
 enum EntityType
 {

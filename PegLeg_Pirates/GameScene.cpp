@@ -46,7 +46,6 @@ void GameScene::initGame(sf::Vector2u windowSize)
 
 	cameraLocked = true;
 	cameraMoving = false;
-	debugPressed = false;
 	num2Pressed = false;
 	num3Pressed = false;
 	num4Pressed = false;
@@ -208,8 +207,8 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 
 	player.update(elapsedTime, sf::Vector2f(windowSize), &projectileManager, viewportRect);
 
-	enemyUpdate(elapsedTime, windowSize, viewportRect);
-	waveUpdate(elapsedTime, windowSize);
+	//enemyUpdate(elapsedTime, windowSize, viewportRect);
+	//waveUpdate(elapsedTime, windowSize);
 
 	projectileManager.update(elapsedTime);
 

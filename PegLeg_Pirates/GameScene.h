@@ -1,3 +1,8 @@
+#ifndef GAMESCENE_H
+#define GAMESCENE_H
+
+#include "stdafx.h"
+
 #include "Player.h"
 #include "EnemySword.h"
 #include "EnemyGun.h"
@@ -23,17 +28,11 @@ private:
 	int killCount;
 	int activeCount = 0;
 
-	bool debugPressed;
-	bool cameraLocked;
-	bool cameraMoving;
+	bool cameraLocked, cameraMoving;
 
-	bool num2Pressed;
-	bool num3Pressed;
-	bool num4Pressed;
+	bool num2Pressed, num3Pressed, num4Pressed;
 
-	bool canReverbPlay;
-	bool canBGMPlay;
-	bool can3DsoundPlay;
+	bool canReverbPlay, canBGMPlay, can3DsoundPlay;
 
 	sf::RectangleShape viewport;
 	sf::IntRect viewportRect;
@@ -80,7 +79,6 @@ public:
 	void initSoundEngine();
 	void audioControls();
 
-
 	int gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
 	void enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::IntRect viewportRect);
 	void waveUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
@@ -90,3 +88,4 @@ public:
 
 	void updateView(sf::Time elapsedTime);
 };
+#endif

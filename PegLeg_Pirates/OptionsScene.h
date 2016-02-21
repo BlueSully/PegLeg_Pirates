@@ -2,6 +2,7 @@
 #define OPTIONSSCENE_H
 
 #include "stdafx.h"
+
 class OptionsScene
 {
 private:

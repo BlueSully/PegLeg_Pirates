@@ -42,7 +42,7 @@ sf::Sprite Entity::getSpriteWeapon()
 
 sf::Vector2f Entity::getSize()
 {
-	return sf::Vector2f(m_bodyWidth, m_bodyHeight);
+	return sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight);
 }
 
 int Entity::getHealth()
@@ -97,8 +97,8 @@ void Entity::setHitCoolDown(float time)
 
 void Entity::setSize(sf::Vector2f pos)
 {
-	m_bodyHeight = pos.x;
-	m_bodyWidth = pos.y;
+	m_bodyHeight = (int)pos.x;
+	m_bodyWidth = (int)pos.y;
 }
 
 void Entity::setActive(bool value)
