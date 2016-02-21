@@ -14,11 +14,10 @@ private:
 	bool m_activated = false;
 	float m_speed;
 	float animationtime = 1;
+	bool m_AtkAnimation = false;
 	int m_bodyHeight;
 	int m_bodyWidth;
-	int m_shadowHeight;
-	int m_shadowWidth;
-	int m_NumbodySprites;
+	int framecount = 0;
 	sf::Color orgColour;
 	sf::Vector2f m_weaponSize;
 

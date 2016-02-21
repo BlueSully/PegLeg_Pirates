@@ -20,14 +20,15 @@ GameScene::~GameScene()
 	{
 		delete *it;
 	}
-	enemyMelee.clear();
+	
 
 	for (std::vector<EnemyGun *>::const_iterator it = enemyGun.begin(); it != enemyGun.end(); it++)
 	{
 		delete *it;
 	}
-	enemyGun.clear();
 
+	enemyMelee.clear();
+	enemyGun.clear();
 	entities.clear();
 }
 
@@ -120,7 +121,7 @@ void GameScene::initEnemy(sf::Vector2u windowSize)
 		{
 			type = 1;
 		}
-
+		type = 0;
 		if (type == EnemyType::Sword)//intialise a sword enemy
 		{
 			EnemySword *melee = new EnemySword();
@@ -207,8 +208,8 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 
 	player.update(elapsedTime, sf::Vector2f(windowSize), &projectileManager, viewportRect);
 
-	//enemyUpdate(elapsedTime, windowSize, viewportRect);
-	//waveUpdate(elapsedTime, windowSize);
+	enemyUpdate(elapsedTime, windowSize, viewportRect);
+	waveUpdate(elapsedTime, windowSize);
 
 	projectileManager.update(elapsedTime);
 

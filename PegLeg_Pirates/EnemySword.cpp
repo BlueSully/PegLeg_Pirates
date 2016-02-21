@@ -36,9 +36,10 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 	m_pos = value;
 
 	m_bodyWidth = 61;
-	m_bodyHeight = 55;
+	m_bodyHeight = 56;
 	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)m_bodyWidth, (int)m_bodyHeight));
 	m_body.setPosition(m_pos);
+
 	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
 
 	m_offsetpixelsX = 8;
@@ -50,7 +51,6 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 
 	m_weapon = sf::Sprite(weaponSprite, sf::IntRect(0, 0, (int)weaponSprite.getSize().x, (int)weaponSprite.getSize().y));
 	m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - 25, m_body.getPosition().y + m_bodyHeight / 2)); 
-	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
 	m_weaponSize = sf::Vector2f((float)weaponSprite.getSize().x, (float)weaponSprite.getSize().y);
 
 	m_isAttacking = false;
@@ -59,7 +59,7 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 	m_speed = (float)(50);
 
 	setHitCoolDown(0);
-	timeToAttack = 0;//one second;
+	timeToAttack = 5;//one second;
 	m_health = 100;
 	setMaxHealth(100);
 }
@@ -69,7 +69,6 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 	if (isHit() && getHitCoolDown() > 0)
 	{
 		setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
-		m_body.setColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
 	}
 	else if (!isHit() && getHitCoolDown() < 0)
 	{
@@ -106,7 +105,7 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 	{
 		checkAttackCollision(targetbodyPos, targetbodysize);
 	}
-	else
+	else 
 	{
 		m_isAttacking = false;
 	}
@@ -114,8 +113,44 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 	moveToward(deltaTime, targetbodyPos, targetbodysize, targetbasePos, targetbaseSize, viewport);
 
 	std::pair<sf::IntRect, bool> animation;
-	animation = animationM.Update(m_NumbodySprites, 3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 
+	if (m_AtkAnimation)
+	{
+		if (m_attackSideRight)//check which side to to use sprites for
+		{
+			animation = animationM.Update(framecount, 5, 5, 6, 0.2f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else if (m_attackSideLeft)
+		{
+			animation = animationM.Update(framecount, 5, 5, 2, 0.2f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+
+		if (framecount == 2)//hit
+		{
+			m_isAttacking = true;
+		}
+		if (animation.second == true)//animation finished one run through
+		{
+			m_AtkAnimation = false;
+			framecount = 0;
+		}
+	}
+	else
+	{
+		if (m_attackSideRight)
+		{
+			animation = animationM.Update(framecount, 6, 6, 5, 0.2f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else if (m_attackSideLeft)
+		{
+			animation = animationM.Update(framecount, 6, 6, 1, 0.2f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		if (animation.second == true)//animation finished one run through
+		{
+			framecount = 0;
+		}
+		
+	}
 	m_body.setTextureRect(animation.first);//still left
 
 	setPos(m_pos);
@@ -132,6 +167,7 @@ void EnemySword::moveToward(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::
 	{
 		m_pos.x -= m_speed * deltaTime.asSeconds();//heading left
 	}
+
 	if ((int)targetbasePos.y > (int)m_shadow.getPosition().y)//moving down
 	{
 		m_pos.y += m_speed * deltaTime.asSeconds();
@@ -166,7 +202,8 @@ void EnemySword::checkAttackCollision(sf::Vector2f targetbodyPos, sf::Vector2f t
 		m_weapon.getPosition().y < targetbodyPos.y + targetbodysize.y &&
 		m_weaponSize.y + m_weapon.getPosition().y > targetbodyPos.y))
 	{
-		m_isAttacking = true;
+		m_AtkAnimation = true;
+		framecount = 0;//reset frame to zero
 		timeToAttack = 5;
 	}
 }
