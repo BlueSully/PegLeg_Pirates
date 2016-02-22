@@ -1,7 +1,6 @@
 //this class is the actual game. fighting enemy waves.
 #include "GameScene.h"
 
-<<<<<<< HEAD
 enum HitType
 {
 	light,
@@ -9,8 +8,6 @@ enum HitType
 	gun,
 	sword,
 };
-=======
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 GameScene::GameScene()
 {
@@ -131,11 +128,7 @@ void GameScene::initEnemy(sf::Vector2u windowSize)
 		{
 			type = 1;
 		}
-<<<<<<< HEAD
 		type = 1;
-=======
-		type = 0;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 		if (type == EnemyType::Sword)//intialise a sword enemy
 		{
 			EnemySword *melee = new EnemySword();
@@ -220,11 +213,7 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 							   (int)(camera.getCenter().y - camera.getSize().y / 2),
 							   (int)camera.getSize().x, (int)camera.getSize().y);
 
-<<<<<<< HEAD
 	player.Update(elapsedTime, sf::Vector2f(windowSize), &projectileManager, viewportRect);
-=======
-	player.update(elapsedTime, sf::Vector2f(windowSize), &projectileManager, viewportRect);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 	enemyUpdate(elapsedTime, windowSize, viewportRect);
 	waveUpdate(elapsedTime, windowSize);
@@ -236,24 +225,14 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 		waveManager.updateTrigger(activeCount);
 	}
 
-<<<<<<< HEAD
 	for (size_t i = 0; i < projectileManager.getEnemyBulletArray().size(); i++)//checking enemy bullets
-=======
-	for (size_t i = 0; i < projectileManager.getEnemyBulletArray().size(); i++)
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	{
 		if (projectileManager.checkCollisions(player.getPos(), player.getSize(), EntityType::PlayerEntity))
 		{
 			player.setIsHit(true);
-<<<<<<< HEAD
 			if (player.isHit() && player.getHitCoolDown() <= 0)
 			{
 				player.updateHealth(-5);
-=======
-			if (player.isHit() && player.canHit())//player is hit by bullet
-			{
-				player.updateHealth(-15);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 			}
 		}
 	}
@@ -298,20 +277,12 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 			if (enemyMelee[i]->getAttack())
 			{
 				player.setIsHit(true);
-<<<<<<< HEAD
 				if (player.isHit() && player.getHitCoolDown() <= 0)
-=======
-				if (player.isHit() && player.canHit())
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 				{
 					player.updateHealth(-5);
 				}
 			}
-<<<<<<< HEAD
 			if (player.CheckCollisionAttack(enemyMelee[i]->getPos(), enemyMelee[i]->getSize()))
-=======
-			if (player.checkCollisionAttack(enemyMelee[i]->getPos(), enemyMelee[i]->getSize()))
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 			{
 				enemyMelee[i]->setIsHit(true);
 				if (enemyMelee[i]->isHit() && enemyMelee[i]->getHitCoolDown() <= 0)
@@ -355,11 +326,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 
 		if (enemyGun[i]->isAlive() && enemyGun[i]->isActivated())
 		{
-<<<<<<< HEAD
 			if (player.CheckCollisionAttack(enemyGun[i]->getPos(), enemyGun[i]->getSize()))//player attacks enemy
-=======
-			if (player.checkCollisionAttack(enemyGun[i]->getPos(), enemyGun[i]->getSize()))//player attacks enemy
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 			{
 				enemyGun[i]->setIsHit(true);
 				if (enemyGun[i]->isHit() && enemyGun[i]->getHitCoolDown() <= 0)
@@ -399,15 +366,9 @@ void GameScene::waveUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 				if (projectileManager.checkCollisions(waveManager.getWave1()[i]->getPos(), waveManager.getWave1()[i]->getSize(), EntityType::EnemyEntity))
 				{
 					waveManager.getWave1()[i]->setIsHit(true);
-<<<<<<< HEAD
 					if (waveManager.getWave1()[i]->isHit())//enemy is hit by player bullet
 					{
 						waveManager.getWave1()[i]->updateHealth(-player.getHitDamage());
-=======
-					if (waveManager.getWave1()[i]->isHit())//player is hit by bullet
-					{
-						waveManager.getWave1()[i]->updateHealth(-15);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 					}
 				}
 			}
@@ -422,15 +383,9 @@ void GameScene::waveUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 				if (projectileManager.checkCollisions(waveManager.getWave2()[i]->getPos(), waveManager.getWave2()[i]->getSize(), EntityType::EnemyEntity))
 				{
 					waveManager.getWave2()[i]->setIsHit(true);
-<<<<<<< HEAD
 					if (waveManager.getWave2()[i]->isHit())//enemy is hit by player bullet
 					{
 						waveManager.getWave2()[i]->updateHealth(-player.getHitDamage());
-=======
-					if (waveManager.getWave2()[i]->isHit())//player is hit by bullet
-					{
-						waveManager.getWave2()[i]->updateHealth(-15);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 					}
 				}
 			}
@@ -445,15 +400,9 @@ void GameScene::waveUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 				if (projectileManager.checkCollisions(waveManager.getWave3()[i]->getPos(), waveManager.getWave3()[i]->getSize(), EntityType::EnemyEntity))
 				{
 					waveManager.getWave3()[i]->setIsHit(true);
-<<<<<<< HEAD
 					if (waveManager.getWave3()[i]->isHit())//enemy is hit by player bullet
 					{
 						waveManager.getWave3()[i]->updateHealth(-player.getHitDamage());
-=======
-					if (waveManager.getWave3()[i]->isHit())//player is hit by bullet
-					{
-						waveManager.getWave3()[i]->updateHealth(-15);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 					}
 				}
 			}

@@ -3,11 +3,7 @@
 Entity::Entity()
 {
 	m_isAttacking = false;
-<<<<<<< HEAD
 	m_canbeHit = false;
-=======
-	m_canHit = false;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	m_invTime = 0;
 
 }
@@ -69,15 +65,9 @@ bool Entity::isHit()
 	return m_isHit;
 }
 
-<<<<<<< HEAD
 bool Entity::canBeHit()
 {
 	return m_canbeHit;
-=======
-bool Entity::canHit()
-{
-	return m_canHit;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 }
 
 void Entity::setIsHit(bool value)
@@ -90,15 +80,9 @@ void Entity::setMaxHealth(int value)
 	m_maxHealth = value;
 }
 
-<<<<<<< HEAD
 void Entity::setCanBeHit(bool value)
 {
 	m_canbeHit = value;
-=======
-void Entity::setCanHit(bool value)
-{
-	m_canHit = value;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 }
 
 float Entity::getHitCoolDown()
@@ -147,7 +131,6 @@ void Entity::updateHealth(int value)
 	}
 }
 
-<<<<<<< HEAD
 bool Entity::onSamePlaneX(Entity * entityB)
 {
 	if (m_shadow.getPosition().x < entityB->getPos().x + entityB->m_bodyWidth &&
@@ -158,8 +141,6 @@ bool Entity::onSamePlaneX(Entity * entityB)
 
 	return false;
 }
-=======
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 bool Entity::onSamePlaneY(Entity * entityB)
 {
@@ -174,16 +155,9 @@ bool Entity::onSamePlaneY(Entity * entityB)
 	return false;
 }
 
-<<<<<<< HEAD
 bool Entity::onSamePlaneX(sf::Vector2f targetPos, sf::Vector2f targetSize){
 	if (m_shadow.getPosition().x < targetPos.x + targetSize.x &&
 		m_shadow.getPosition().x + m_shadowWidth > targetPos.x)
-=======
-bool Entity::onSamePlaneX(Entity * entityB)
-{
-	if (m_shadow.getPosition().x < entityB->getPos().x + entityB->m_bodyWidth &&
-		m_shadow.getPosition().x + m_shadowWidth > entityB->getPos().x)
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	{
 		return true;
 	}
@@ -201,17 +175,4 @@ bool Entity::onSamePlaneY(sf::Vector2f targetPos, sf::Vector2f targetSize){
 	}
 
 	return false;
-<<<<<<< HEAD
-=======
-}
-
-bool Entity::onSamePlaneX(sf::Vector2f targetPos, sf::Vector2f targetSize){
-	if (m_shadow.getPosition().x < targetPos.x + targetSize.x &&
-		m_shadow.getPosition().x + m_shadowWidth > targetPos.x)
-	{
-		return true;
-	}
-
-	return false;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 }

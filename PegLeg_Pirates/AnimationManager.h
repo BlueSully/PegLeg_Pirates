@@ -1,11 +1,6 @@
 #pragma once
 
 #include "stdafx.h"
-<<<<<<< HEAD
-=======
-#include "SFML/Graphics.hpp" 
-#include "SFML/OpenGL.hpp" 
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 #include <utility> 
 
 class AnimationManager{

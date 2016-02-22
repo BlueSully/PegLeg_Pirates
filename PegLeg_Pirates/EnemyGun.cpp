@@ -33,10 +33,6 @@ void EnemyGun::setPos(sf::Vector2f value)
 
 void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Texture & shadowSprite, sf::Texture & weaponSprite, int index)
 {
-<<<<<<< HEAD
-=======
-	name = "Gun";
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	m_pos = value;
 	orgColour = sf::Color(0, 255, 255, 125);
 

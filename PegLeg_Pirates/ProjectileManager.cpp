@@ -10,12 +10,7 @@ enum EntityType
 
 ProjectileManager::ProjectileManager()
 {
-<<<<<<< HEAD
 
-=======
-	enemybulletArray.reserve(25);
-	playerbulletArray.reserve(25);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 }
 
 ProjectileManager::~ProjectileManager()
@@ -69,10 +64,7 @@ bool ProjectileManager::checkCollisions(sf::Vector2f targetbodyPos, sf::Vector2f
 				if (checkBullet(playerbulletArray[i], targetbodyPos, targetbodysize))
 				{
 					playerbulletArray[i]->setCollide(true);
-<<<<<<< HEAD
 					playerbulletArray[i]->setDead();
-=======
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 					return true;
 				}
 			}
@@ -87,10 +79,7 @@ bool ProjectileManager::checkCollisions(sf::Vector2f targetbodyPos, sf::Vector2f
 				if (checkBullet(enemybulletArray[i], targetbodyPos, targetbodysize))
 				{
 					enemybulletArray[i]->setCollide(true);
-<<<<<<< HEAD
 					enemybulletArray[i]->setDead();
-=======
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 					return true;
 				}
 			}
@@ -114,7 +103,6 @@ bool ProjectileManager::checkBullet(Projectile* bullet, sf::Vector2f targetbodyP
 
 void ProjectileManager::update(sf::Time deltatime)
 {
-<<<<<<< HEAD
 	
 	for (size_t i = 0; i < enemybulletArray.size(); i++)
 	{	
@@ -161,36 +149,6 @@ void ProjectileManager::update(sf::Time deltatime)
 
 	std::cout << playerbulletArray.size() << std::endl;
 	std::cout << enemybulletArray.size() << std::endl;
-=======
-	//Deletion of Projectiles
-	std::vector<Projectile *>::iterator enemyiter = enemybulletArray.begin();
-	while (enemyiter != enemybulletArray.end())
-	{
-		(*enemyiter)->update(deltatime);
-		if (!(*enemyiter)->isAlive() || (*enemyiter)->getCollide() == true)
-		{
-			enemyiter = enemybulletArray.erase(enemyiter);
-		}
-		else
-		{
-			++enemyiter;
-		}
-	}
-
-	std::vector<Projectile *>::iterator playeriter = playerbulletArray.begin();
-	while (playeriter != playerbulletArray.end())
-	{
-		(*playeriter)->update(deltatime);
-		if (!(*playeriter)->isAlive() || (*playeriter)->getCollide() == true)
-		{
-			playeriter = playerbulletArray.erase(playeriter);
-		}
-		else
-		{
-			++playeriter;
-		}
-	}
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 }
 
 void ProjectileManager::draw(sf::RenderWindow * window)

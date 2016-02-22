@@ -2,11 +2,7 @@
 #define ENTITY_H
 
 #include "stdafx.h"
-<<<<<<< HEAD
 #include "AnimationManager.h"
-=======
-
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 enum EntityType
 {
@@ -19,10 +15,6 @@ enum EntityType
 class Entity
 {
 protected:
-<<<<<<< HEAD
-=======
-	std::string name;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	sf::Vector2f m_pos;
 
 	sf::Sprite m_body;
@@ -38,11 +30,7 @@ protected:
 	bool m_isAttacking;
 	bool m_activated;
 	bool m_isHit;
-<<<<<<< HEAD
 	bool m_canbeHit;
-=======
-	bool m_canHit;
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	bool m_alive;
 	int m_health;
 	int m_maxHealth;
@@ -59,11 +47,7 @@ public:
 	virtual sf::Vector2f getSize();
 
 	virtual bool isHit();
-<<<<<<< HEAD
 	virtual bool canBeHit();
-=======
-	virtual bool canHit();
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	virtual bool isAlive();
 	virtual int getHealth();
 	virtual void setActive(bool value);
@@ -72,11 +56,7 @@ public:
 	//set methods
 	virtual void setIsHit(bool value);
 	virtual void setMaxHealth(int value);
-<<<<<<< HEAD
 	virtual void setCanBeHit(bool value);
-=======
-	virtual void setCanHit(bool value);
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	virtual void setPos(sf::Vector2f value);
 	virtual void setPosX(float x);
 	virtual void setPosY(float y);

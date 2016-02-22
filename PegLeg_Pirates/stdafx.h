@@ -9,11 +9,6 @@
 #include "SFML/Graphics.hpp" 
 #include "SFML/OpenGL.hpp" 
 
-<<<<<<< HEAD
-=======
-#include "AnimationManager.h"
-
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 #include "sound.hpp"
 #include "fmod.hpp"
 #include "fmod_errors.h"

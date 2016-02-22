@@ -7,11 +7,7 @@
 #include "MenuScene.h"
 #include "OptionsScene.h"
 #include "LevelSelect.h"
-<<<<<<< HEAD
 
-=======
-#include "AnimationManager.h"
->>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 class SceneManager
 {
