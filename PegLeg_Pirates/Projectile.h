@@ -18,6 +18,7 @@ private:
 public:
 	Projectile();
 	~Projectile();
+<<<<<<< HEAD
 	Projectile(sf::Vector2f position, float velocity);
 
 	bool isAlive();
@@ -27,6 +28,12 @@ public:
 	void setPos(sf::Vector2f position);
 	float getVelo();
 	void setVelo(float velocity);
+=======
+	Projectile(sf::Vector2f pos, float velo);
+
+	bool isAlive();
+	sf::Vector2f getPos();
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	float getSize();
 	bool getCollide();//use for deletion purpose
 	void setCollide(bool value);

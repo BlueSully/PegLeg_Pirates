@@ -1,8 +1,15 @@
 #ifndef ENEMYSWORD_H
 #define ENEMYSWORD_H
 
+<<<<<<< HEAD
 #include "Entity.h"
 
+=======
+#include "Player.h"
+#include "Entity.h"
+
+
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 class EnemySword : public Entity{
 private:
 	AnimationManager animationM;
@@ -30,6 +37,10 @@ public:
 	void setActive(bool value);
 	bool isActivated();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	void changeColour();
 	bool checkCanAttack(sf::Time deltaTime, sf::Vector2f targetBasePos, sf::Vector2f targetBaseSize);
 	void checkAttackCollision(sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize);

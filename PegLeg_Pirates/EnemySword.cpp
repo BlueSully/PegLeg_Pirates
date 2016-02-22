@@ -32,7 +32,11 @@ void EnemySword::setPos(sf::Vector2f value)
 
 void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Texture & shadowSprite, sf::Texture & weaponSprite, int index)
 {
+<<<<<<< HEAD
 
+=======
+	name = "Sword";
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	m_pos = value;
 
 	m_bodyWidth = 61;
@@ -49,15 +53,25 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 	m_shadowWidth = (int)shadowSprite.getSize().x;
 	m_shadowHeight = (int)shadowSprite.getSize().y;
 
+<<<<<<< HEAD
 	m_weaponSize = sf::Vector2f((float)weaponSprite.getSize().x, (float)weaponSprite.getSize().y);
 	m_weapon = sf::Sprite(weaponSprite, sf::IntRect(0, 0, (int)m_weaponSize.x, (int)m_weaponSize.y));
 	m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - m_weaponSize.x / 2, m_body.getPosition().y + m_bodyHeight / 2));
 	
+=======
+	m_weapon = sf::Sprite(weaponSprite, sf::IntRect(0, 0, (int)weaponSprite.getSize().x, (int)weaponSprite.getSize().y));
+	m_weapon.setPosition(sf::Vector2f(m_body.getPosition().x + m_bodyWidth - 25, m_body.getPosition().y + m_bodyHeight / 2)); 
+	m_weaponSize = sf::Vector2f((float)weaponSprite.getSize().x, (float)weaponSprite.getSize().y);
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 	m_isAttacking = false;
 	setIsHit(false);
 	setAlive(true);
+<<<<<<< HEAD
 	m_speed = (float)(rand() % 50 + 30);
+=======
+	m_speed = (float)(50);
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 
 	setHitCoolDown(0);
 	timeToAttack = 5;//one second;
@@ -71,10 +85,17 @@ void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vect
 	{
 		setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
 	}
+<<<<<<< HEAD
 	else if (getHitCoolDown() < 0)
 	{
 		setCanBeHit(false);
 		setHitCoolDown(0.4f);
+=======
+	else if (!isHit() && getHitCoolDown() < 0)
+	{
+		setHitCoolDown(0.4f);
+		setIsHit(false);
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 	}
 
 	if (m_health <= 0)

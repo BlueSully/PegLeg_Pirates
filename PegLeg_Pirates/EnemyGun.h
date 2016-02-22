@@ -1,6 +1,10 @@
 #ifndef ENEMYGUN_H
 #define ENEMYGUN_H
 
+<<<<<<< HEAD
+=======
+#include "Player.h"
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 #include "Entity.h"
 #include "ProjectileManager.h"
 

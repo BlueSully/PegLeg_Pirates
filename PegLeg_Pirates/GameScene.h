@@ -6,6 +6,10 @@
 #include "Player.h"
 #include "EnemySword.h"
 #include "EnemyGun.h"
+<<<<<<< HEAD
+=======
+#include "Projectile.h"
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
 #include "ProjectileManager.h"
 #include "waveManager.h"
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 22/02/2016 12:42:07.
      1>Project "C:\Users\C00179413\Desktop\PegLeg_Pirates-branch\PegLeg_Pirates\PegLeg_Pirates.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -36,3 +37,10 @@
 Build succeeded.
 
 Time Elapsed 00:00:03.54
+=======
+﻿  EnemySword.cpp
+sound.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'sound.obj' or at 'C:\Users\Anthony O'Sullivan\Desktop\New folder (2)\pegleg_pirateGit\Debug\vc120.pdb'; linking object as if no debug info
+LevelSelect.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'LevelSelect.obj' or at 'C:\Users\Anthony O'Sullivan\Desktop\New folder (2)\pegleg_pirateGit\Debug\vc120.pdb'; linking object as if no debug info
+  PegLeg_Pirates.vcxproj -> C:\Users\Anthony O'Sullivan\Desktop\New folder (2)\pegleg_pirateGit\Debug\PegLeg_Pirates.exe
+          1 file(s) copied.
+>>>>>>> 8a8876937c56b69155def7748f90e4598657636f
