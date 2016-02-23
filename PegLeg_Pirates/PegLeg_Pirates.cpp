@@ -44,7 +44,7 @@ int main()
 	sf::Clock clock;
 	
 	SceneManager ManagerScreen(window);
-	ManagerScreen.setIndex(Screens::GameScreen);
+	ManagerScreen.setIndex(Screens::UpgradeScreen);
 
 	while (window.isOpen())
 	{

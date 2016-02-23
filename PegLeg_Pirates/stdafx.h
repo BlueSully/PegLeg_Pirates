@@ -27,7 +27,7 @@ enum Screens
 	LevelComplete,
 	GameScreen,
 	GameOverScreen,
-	LevelSel,
+	UpgradeScreen,
 };
 
 enum Wave 

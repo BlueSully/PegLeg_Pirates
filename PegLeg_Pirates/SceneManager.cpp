@@ -34,8 +34,8 @@ void SceneManager::checkindex()
 {
 	switch (m_sceneIndex)
 	{
-		case Screens::LevelSel:
-			levelSelect.initLevelSelect(m_screenWindow->getSize());
+		case Screens::UpgradeScreen:
+			UpgradeScene.initUpgradeScene(m_screenWindow->getSize());
 			break;
 		case Screens::GameScreen:
 			game = new GameScene(m_screenWindow->getSize());
@@ -71,9 +71,9 @@ void SceneManager::update(sf::Event * evt, sf::Time elapsedTime)
 	{
 		sceneValue = menu->MenuUpdate(m_screenWindow, evt, elapsedTime, sf::Vector2u(m_screenWindow->getSize()), Screens::GameOverScreen);
 	}
-	else if (getIndex() == Screens::LevelSel)
+	else if (getIndex() == Screens::UpgradeScreen)
 	{
-		sceneValue = levelSelect.LevelSelectUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
+		sceneValue = UpgradeScene.UpgradeSceneUpdate(elapsedTime, sf::Vector2u(m_screenWindow->getSize()));
 	}
 
 	if (sceneValue != -1)
@@ -100,9 +100,9 @@ void SceneManager::draw()
 	{
 		menu->MenuDraw(m_screenWindow, MenuScreen);
 	}
-	else if (getIndex() == LevelSel)
+	else if (getIndex() == UpgradeScreen)
 	{
-		levelSelect.LevelSelectDraw(m_screenWindow);
+		UpgradeScene.UpgradeSceneDraw(m_screenWindow);
 	}
 	else if (getIndex() == OptionScreen)
 	{

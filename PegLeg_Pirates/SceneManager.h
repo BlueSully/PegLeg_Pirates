@@ -6,7 +6,7 @@
 #include "GameScene.h"
 #include "MenuScene.h"
 #include "OptionsScene.h"
-#include "LevelSelect.h"
+#include "UpgradeScene.h"
 
 
 class SceneManager
@@ -25,7 +25,7 @@ private:
 	GameScene* game;
 	MenuScene* menu;
 	OptionsScene* options;
-	LevelSelect levelSelect;
+	UpgradeScene UpgradeScene;
 	
 public:
 	SceneManager();
