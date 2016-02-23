@@ -20,9 +20,11 @@ private:
 	bool m_weakAttack, m_strongAttack = false;
 	bool m_facingRight = true;
 	int m_speed;
-	int m_damage = 0;
+	float m_damage = 0;
+	int damage = 0;
 	float m_invTime;
 	int framecount = 0;
+	float m_fireCooldown;
 	bool m_firedGun = false;
 	bool m_lightAtkAnimation = false;
 	bool m_strongAtkingAnimation = false;
@@ -32,6 +34,8 @@ private:
 	int m_bodyHeight;
 	int m_bodyWidth;
 	int m_hitType;
+	int m_bulletCount = 0;
+	int maxBullets;
 
 	bool left, right, up, down, lightAttack, heavyAttack, jump, enter, shoot;//keyboard
 
@@ -51,6 +55,7 @@ public:
 	~Player();
 
 	int getHitDamage();
+	int getMaxHitDamage();
 	void setHitDamage(int power);
 	void toggleSound(void);
 

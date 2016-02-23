@@ -67,14 +67,14 @@ void EnemySword::initialise(sf::Vector2f value, sf::Texture & bodySprite, sf::Te
 
 void EnemySword::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, sf::IntRect viewport)
 {
-	if (isHit() && getHitCoolDown() > 0)
-	{
-		setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
-	}
-	else if (getHitCoolDown() < 0)
+	if (getHitCoolDown() > 0)
 	{
 		setCanBeHit(false);
-		setHitCoolDown(0.4f);
+		setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
+	}
+	else
+	{
+		setCanBeHit(true);
 	}
 
 	if (m_health <= 0)
@@ -209,11 +209,6 @@ void EnemySword::checkAttackCollision(sf::Vector2f targetbodyPos, sf::Vector2f t
 	}
 }
 
-void EnemySword::changeColour()
-{
-	m_body.setColor(orgColour);
-}
-
 void EnemySword::draw(sf::RenderWindow * window)
 {
 
@@ -221,7 +216,7 @@ void EnemySword::draw(sf::RenderWindow * window)
 	//Drawing 
 	window->draw(m_shadow);
 	window->draw(m_body);
-	window->draw(m_weapon);//weapon for debugging purpose
+	//window->draw(m_weapon);//weapon for debugging purpose
 
 	sf::RectangleShape shp;
 	shp.setPosition(sf::Vector2f(m_body.getPosition().x, m_body.getPosition().y - 20));

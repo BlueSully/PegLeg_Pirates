@@ -34,18 +34,16 @@ void EnemyGun::setPos(sf::Vector2f value)
 void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Texture & shadowSprite, sf::Texture & weaponSprite, int index)
 {
 	m_pos = value;
-	orgColour = sf::Color(0, 255, 255, 125);
 
-	m_bodyWidth = (int)bodySprite.getSize().x;
-	m_bodyHeight = (int)bodySprite.getSize().y;
-	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)bodySprite.getSize().x, (int)bodySprite.getSize().y));
+	m_bodyWidth = 63;
+	m_bodyHeight = 48;
+	m_body = sf::Sprite(bodySprite, sf::IntRect(0, 0, (int)m_bodyWidth, (int)m_bodyHeight));
 	m_body.setPosition(m_pos);
-	m_body.setColor(orgColour);
 	m_NumbodySprites = 24;
 
 	m_offsetpixelsX = 3;
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
-	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
+	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_bodyHeight) - m_shadow.getTexture()->getSize().y / 2));
 
 	m_shadowWidth = (int)shadowSprite.getSize().x;
 	m_shadowHeight = (int)shadowSprite.getSize().y;
@@ -67,17 +65,16 @@ void EnemyGun::initialise(sf::Vector2f value, sf::Texture &  bodySprite, sf::Tex
 	setMaxHealth(100);
 }
 
-void EnemyGun::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, ProjectileManager *manager)
+void EnemyGun::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, ProjectileManager *manager, sf::IntRect viewport)
 {
-	if (isHit() && getHitCoolDown() > 0)
+	if (getHitCoolDown() > 0)
 	{
+		setCanBeHit(false);
 		setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
-		m_body.setColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
 	}
-	else if (!isHit() && getHitCoolDown() < 0)
+	else
 	{
-		setHitCoolDown(0.4f);
-		setIsHit(false);
+		setCanBeHit(true);
 	}
 
 	if (m_health <= 0)
@@ -93,24 +90,42 @@ void EnemyGun::update(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector
 	else
 		m_isAttacking = false;
 
-	moveToward(deltaTime, targetbodyPos, targetbodysize, targetbasePos, targetbaseSize);
+	moveToward(deltaTime, targetbodyPos, targetbodysize, targetbasePos, targetbaseSize, viewport);
 
 	std::pair<sf::IntRect, bool> animation;
-	animation = animationM.Update(m_NumbodySprites, 3, 3, 0, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+	if (m_attackAnimation)
+	{
+		if (m_attackSideRight)
+			animation = animationM.Update(framecount, 4, 4, 6, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		else if(!m_attackSideRight)
+			animation = animationM.Update(framecount, 4, 4, 2, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		if (animation.second == true)
+		{
+			framecount = 0;
+			m_attackAnimation = false;
+		}
+	}
+	else 
+	{
+		if (m_attackSideRight)
+			animation = animationM.Update(framecount, 2, 2, 5, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		else if (!m_attackSideRight)
+			animation = animationM.Update(framecount, 2, 2, 1, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+	}
 
 	m_body.setTextureRect(animation.first);//still left
 
 	setPos(m_pos);
-	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_body.getTexture()->getSize().y) - m_shadow.getTexture()->getSize().y / 2));
+	m_shadow.setPosition(sf::Vector2f(m_body.getPosition().x + m_offsetpixelsX, (m_body.getPosition().y + m_bodyHeight) - m_shadow.getTexture()->getSize().y / 2));
 }
 
-void EnemyGun::moveToward(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize)
+void EnemyGun::moveToward(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, sf::IntRect viewport)
 {
-	if ((int)targetbodyPos.x > (int)getPos().x + getSize().x - 250)
-		m_pos.x += m_speed * deltaTime.asSeconds();//heading right
-	else if ((int)targetbodyPos.x + targetbodysize.x < (int)getPos().x - 250)
+	if ((int)targetbodyPos.x + targetbodysize.x < (int)getPos().x - 250 && getPos().x > viewport.left)
 		m_pos.x -= m_speed * deltaTime.asSeconds();//heading left
-
+	else if ((int)targetbodyPos.x > (int)getPos().x + getSize().x - 250 && getPos().x + getSize().x < viewport.left + viewport.width)
+		m_pos.x += m_speed * deltaTime.asSeconds();//heading right
+	
 	if ((int)targetbasePos.y >(int)m_shadow.getPosition().y)//moving down
 		m_pos.y += m_speed * deltaTime.asSeconds();
 	else if ((int)targetbasePos.y < (int)m_shadow.getPosition().y + m_shadowHeight)
@@ -122,14 +137,21 @@ void EnemyGun::attackRangedController(sf::Time deltaTime, ProjectileManager *man
 	if (m_firedGun == false)
 	{
 		m_firedGun = true;
-
+		m_attackAnimation = true;
 		float projectileVec;
 		if (m_attackSideRight)
 			projectileVec = 500;
 		else
 			projectileVec = -500;
 
-		manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2, getPos().y + getSize().y / 2), projectileVec, EntityType::EnemyEntity);
+		if (m_attackSideRight)
+		{
+			manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2 + 20, getPos().y + getSize().y / 2 - 11.f), projectileVec, EntityType::EnemyEntity);
+		}
+		else
+		{
+			manager->createProjectile(sf::Vector2f(getPos().x + getSize().x / 2 - 20, getPos().y + getSize().y / 2 - 11.f), projectileVec, EntityType::EnemyEntity);
+		}
 		timeToAttack = (float)(rand() % 5 + 3);
 	}
 }
@@ -150,11 +172,6 @@ bool EnemyGun::checkCanAttack(sf::Time deltaTime, sf::Vector2f targetBasePos, sf
 	}
 	
 	return false;
-}
-
-void EnemyGun::changeColour()
-{
-	m_body.setColor(orgColour);
 }
 
 void EnemyGun::draw(sf::RenderWindow * window)

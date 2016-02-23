@@ -26,10 +26,12 @@ Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsy
 	m_bodyHeight = 58;
 	m_body = sf::Sprite(bodySprite, sf::IntRect(1, 1, m_bodyWidth, m_bodyHeight));
 	m_body.setPosition(m_playerPos);
-
+	m_fireCooldown = 0.0f;
 	setSize(sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight));
 
 	m_invTime = 1;
+	m_bulletCount = 0;
+	maxBullets = 1;
 	m_shadow = sf::Sprite(shadowSprite, sf::IntRect(0, 0, shadowSprite.getSize().x, shadowSprite.getSize().y));
 
 	m_shadowWidth = (int)shadowSprite.getSize().x;
@@ -47,8 +49,9 @@ Player::Player(sf::Vector2f value, FMOD::Channel * channel, FMOD::System *FMODsy
 	m_alive = m_canbeHit = sfxtoggled = true;
 	m_hitType = -1;
 	setHitDamage(50);
-	initSoundEngine(sysFMOD, resultFMOD);
+	setHealth(100);
 	setMaxHealth(100);
+	initSoundEngine(sysFMOD, resultFMOD);
 }
 
 //~~~~~~~~~~~~~~~~~~~METHODS
@@ -60,10 +63,9 @@ void Player::initSoundEngine(FMOD::System *FMODsys, FMOD_RESULT *result)
 
 int Player::getHitDamage()
 {
-	int damage = 0;
 	if (m_hitType == HitType::light)
 	{
-		damage = (m_damage * 0.25f);
+		damage = (int)(m_damage * 0.5f);
 	}
 	else if (m_hitType == HitType::heavy)
 	{
@@ -71,8 +73,13 @@ int Player::getHitDamage()
 	}
 	else if (m_hitType == HitType::gun)
 	{
-		damage = (m_damage * 1.5f);
+		damage = (int)(m_damage * 1.5f);
 	}
+	return damage;
+}
+
+int Player::getMaxHitDamage()
+{
 	return m_damage;
 }
 
@@ -174,10 +181,12 @@ void Player::AttackMeleeController(sf::Time deltaTime)
 
 void Player::AttackRangedController(sf::Time deltaTime, ProjectileManager* manager)
 {
-	if (shoot && m_firedGun == false)
+	if (shoot && m_firedGun == false && m_bulletCount != maxBullets)
 	{
 		m_firedGun = true;
 		m_gunShootAnimation = true;
+		m_bulletCount++;
+		m_fireCooldown = 2.0f;
 		float projectileVec;
 		if (m_facingRight)
 		{
@@ -202,6 +211,12 @@ void Player::AttackRangedController(sf::Time deltaTime, ProjectileManager* manag
 	{
 		m_firedGun = false;
 	}
+	if (m_fireCooldown <= 0 && m_bulletCount != 0)
+	{
+		m_bulletCount--;
+		m_fireCooldown = 2.0f;
+	}
+	m_fireCooldown -= deltaTime.asSeconds();
 }
 
 void Player::MoveController(sf::Time deltaTime, char controlType, sf::Vector2f window, sf::IntRect viewportRect)
@@ -312,21 +327,36 @@ void Player::UpdateAnimation(sf::Time deltaTime)
 	{
 		if (m_facingRight)
 		{
-			animation = animationM.Update(framecount, 4, 3, 8, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+			animation = animationM.Update(framecount, 3, 3, 9, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 		}
 		else
 		{
-			animation = animationM.Update(framecount, 4, 3, 3, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+			animation = animationM.Update(framecount, 3, 3, 4, 0.3f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
 		}
 		if (animation.second == true)
 		{
-			setAlive(false);
 			m_deathAnimation = false;
+			setAlive(false);
 		}
 	}
 	else if (left && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
 	{
 		animation = animationM.Update(framecount, 5, 5, 1, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+	}
+	else if (right && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
+	{
+		animation = animationM.Update(framecount, 5, 5, 6, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+	}
+	else if ((up || down) && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
+	{
+		if (m_facingRight)
+		{
+			animation = animationM.Update(framecount, 5, 5, 6, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
+		else
+		{
+			animation = animationM.Update(framecount, 5, 5, 1, 0.1f, sf::Vector2f((float)m_bodyWidth, (float)m_bodyHeight), deltaTime);
+		}
 	}
 	else if (right && (!m_lightAtkAnimation && !m_strongAtkingAnimation && !m_isJumping && !m_gunShootAnimation))
 	{
@@ -403,8 +433,9 @@ void Player::UpdateAnimation(sf::Time deltaTime)
 		}
 	}
 
-	if (m_health <= 0)
+	if (m_health <= 0 && !m_deathAnimation)
 	{
+		framecount = 0;
 		m_deathAnimation = true;
 	}
 	else if (m_health > 0)
@@ -441,9 +472,10 @@ void Player::Update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *
 		m_hitType = HitType::gun;
 	}
 
+	std::cout << m_hitType << std::endl;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
 	{
-		m_health = 100;
+		m_health = getMaxHealth();
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && !num1Pressed)
@@ -458,14 +490,14 @@ void Player::Update(sf::Time deltaTime, sf::Vector2f window, ProjectileManager *
 
 	if (!m_deathAnimation)
 	{
-		if (isHit() && getHitCoolDown() > 0)
-		{
-			setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
-		}
-		else if (getHitCoolDown() < 0)
+		if (getHitCoolDown() > 0)
 		{
 			setCanBeHit(false);
-			setHitCoolDown(0.4f);
+			setHitCoolDown(getHitCoolDown() - deltaTime.asSeconds());
+		}
+		else
+		{
+			setCanBeHit(true);
 		}
 
 		JumpController(deltaTime);
@@ -504,9 +536,4 @@ void Player::draw(sf::RenderWindow * window)
 	window->draw(m_shadow);
 	window->draw(m_body);
 	window->draw(shp);
-
-	if (m_isAttacking)
-	{
-		window->draw(m_weapon);//weapon for debugging purpose
-	}
 }

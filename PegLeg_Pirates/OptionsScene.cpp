@@ -85,12 +85,16 @@ int OptionsScene::OptionsUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Ti
 	if (highlighted == 1)
 	{
 		menuItem1.setColor(sf::Color::Yellow);
+		menuItem1.setString("MUTE AUDIO ( press X )");
 		menuItem2.setColor(sf::Color::White);
+		menuItem2.setString("Back");
 	}
 	else if (highlighted == 2)
 	{
 		menuItem1.setColor(sf::Color::White);
+		menuItem1.setString("MUTE AUDIO");
 		menuItem2.setColor(sf::Color::Yellow);
+		menuItem2.setString("Back ( press X )");
 	}
 
 	return -1;

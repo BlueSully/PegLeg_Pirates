@@ -13,14 +13,13 @@ private:
 	sf::Text upgradeItem2;
 	sf::Text upgradeItem3;
 	sf::Text upgradeItem4;
-
-	Player player;
-
+	bool keypressed = true;
+	bool buyDamage, buyHealth;
 	sf::Texture m_mapTex;
 	sf::Sprite m_MapSprite;
-
-	int money;
-
+	int health;
+	int damage;
+	int bank;
 
 public:
 	//MAIN
@@ -29,6 +28,12 @@ public:
 	int UpgradeSceneUpdate(sf::Time elapsedTime, sf::Vector2u windowSize);
 	void UpgradeSceneUnload();
 	void UpgradeSceneDraw(sf::RenderWindow * window);
-	void getCoins(int);
+	int getHealth();
+	void setHealth(int);
+
+	int getDamage();
+	void setDamage(int);
+
+	void setCoins(int);
 };
 #endif

@@ -27,9 +27,9 @@ void MenuScene::initMenu(sf::Vector2u windowSize, int index)
 		m_Menusprite.setTexture(m_mainText);
 		m_Menusprite.setTextureRect(sf::IntRect(0, 0, (int)m_Menusprite.getTextureRect().width, (int)m_Menusprite.getTextureRect().height));
 		m_Menusprite.setPosition(0, 0);
+
 		int alpha = 0;
 		font.loadFromFile("Sprites/font.ttf");
-
 
 		TitleItem1.setFont(font);
 		TitleItem1.setCharacterSize(30);
@@ -99,7 +99,6 @@ int MenuScene::MenuUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time ela
 {
 	if (index == Screens::TitleScreen)
 	{
-		
 		if ((evt->type == sf::Event::TextEntered || evt->type == sf::Event::KeyPressed) && keyPressed == false)
 		{
 			keyPressed = true;
@@ -110,8 +109,6 @@ int MenuScene::MenuUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time ela
 		{
 			keyPressed = false;
 		}
-		
-		return -1;
 	}
 	else if (index == MenuScreen)
 	{
@@ -164,29 +161,41 @@ int MenuScene::MenuUpdate(sf::RenderWindow* window, sf::Event* evt, sf::Time ela
 		if (highlighted == 0)
 		{
 			menuItem1.setColor(sf::Color::Yellow);
+			menuItem1.setString("Start Game ( press Z )");
 			menuItem2.setColor(sf::Color::White);
+			menuItem2.setString("Options ");
 			menuItem3.setColor(sf::Color::White);
+			menuItem3.setString("Quit");
 		}
 		else if (highlighted == 1)
 		{
 			menuItem1.setColor(sf::Color::White);
+			menuItem1.setString("Start Game");
 			menuItem2.setColor(sf::Color::Yellow);
+			menuItem2.setString("Options ( press Z )");
 			menuItem3.setColor(sf::Color::White);
+			menuItem3.setString("Quit");
 		}
 		else if (highlighted == 2)
 		{
 			menuItem1.setColor(sf::Color::White);
+			menuItem1.setString("Start Game");
 			menuItem2.setColor(sf::Color::White);
+			menuItem2.setString("Options");
 			menuItem3.setColor(sf::Color::Yellow);
+			menuItem3.setString("Quit ( press Z )");
 		}
-
-		return -1;
 	}
 	else if (index == Screens::GameOverScreen)
 	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+		{
+			return Screens::UpgradeScreen;
+		}
 		elapsedtime += elapsedTime.asSeconds();
 		return -1;
 	}
+
 	return -1;
 }
 
@@ -233,9 +242,14 @@ void MenuScene::MenuDraw(sf::RenderWindow * window, int index){
 		{
 			window->draw(m_Flamesprite[i]);
 		}
+
 		levEndItem4[1].setColor(sf::Color::Blue);
 		window->draw(levEndItem4[1]);
 		window->draw(levEndItem4[0]);
+
+		sf::View camera = sf::View(sf::Vector2f((float)window->getSize().x / 2, (float)window->getSize().y / 2), sf::Vector2f((float)window->getSize().x, (float)window->getSize().y));
+		window->setView(camera);
+		
 	}
 }
 

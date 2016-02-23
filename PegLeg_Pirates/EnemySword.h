@@ -30,7 +30,6 @@ public:
 	void setActive(bool value);
 	bool isActivated();
 
-	void changeColour();
 	bool checkCanAttack(sf::Time deltaTime, sf::Vector2f targetBasePos, sf::Vector2f targetBaseSize);
 	void checkAttackCollision(sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize);
 	void moveToward(sf::Time deltaTime, sf::Vector2f targetbodyPos, sf::Vector2f targetbodysize, sf::Vector2f targetbasePos, sf::Vector2f targetbaseSize, sf::IntRect viewport);

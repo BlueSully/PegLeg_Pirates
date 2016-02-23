@@ -38,11 +38,12 @@ private:
 
 	// Declare and load a texture
 	sf::Texture m_floorTex, m_railTex, m_skyTex;
-	sf::Texture m_playerSprite, m_playerbody, m_shadow, m_meleeWeapon;
+	sf::Texture m_playerSprite, m_shadow, m_meleeWeapon;
 
-	sf::Texture m_meleeTex;
+	sf::Texture m_meleeTex, m_gunTex;
 	sf::Sprite m_Deck, m_Railing, m_Sky;
-
+	sf::Text bank;
+	sf::Font font;
 	//Entities and entity controllers
 	Player player;
 
@@ -52,6 +53,8 @@ private:
 	std::vector<EnemySword *> enemyMelee;
 	std::vector<EnemyGun *> enemyGun;
 	std::vector<Entity *> entities;
+
+	int money = 0;
 
 	//ADUIO
 	sf::CircleShape ambientAudioball;
@@ -69,10 +72,13 @@ private:
 
 public:
 	GameScene();
-	GameScene(sf::Vector2u windowSize);
+	GameScene(sf::Vector2u windowSize, int damage, int health);
 	~GameScene();
 
-	void initGame(sf::Vector2u windowSize);
+	int getMoney();
+	void setMoney(int value);
+
+	void initGame(sf::Vector2u windowSize, int damage, int health);
 	void initEnemy(sf::Vector2u windowSize);
 	
 	void initSoundEngine();

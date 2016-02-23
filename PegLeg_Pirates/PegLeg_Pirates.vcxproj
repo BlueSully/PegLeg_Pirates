@@ -99,7 +99,6 @@
     <ClCompile Include="EnemySword.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="UpgradeScene.cpp" />
     <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="OptionsScene.cpp" />
     <ClCompile Include="PegLeg_Pirates.cpp" />
@@ -109,6 +108,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="UpgradeScene.cpp" />
     <ClCompile Include="waveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +117,6 @@
     <ClInclude Include="EnemySword.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="UpgradeScene.h" />
     <ClInclude Include="MenuScene.h" />
     <ClInclude Include="OptionsScene.h" />
     <ClInclude Include="Player.h" />
@@ -127,6 +126,7 @@
     <ClInclude Include="sound.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UpgradeScene.h" />
     <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

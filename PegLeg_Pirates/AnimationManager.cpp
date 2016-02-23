@@ -19,6 +19,7 @@ std::pair<sf::IntRect, bool> AnimationManager::Update(int &frame, int totalanima
 	m_colNum = colNum;
 	frameDim = size;
 	m_finished = false;
+
 	if (m_numOfFrames != 0 )
 	{
 		if (elapsedtime > speed)
@@ -58,6 +59,7 @@ std::pair<sf::IntRect, bool> AnimationManager::Update(int &frame, int totalanima
 	m_colNum = colNum;
 	frameDim = size;
 	m_finished = false;
+
 	if (m_numOfFrames != 0)
 	{
 		if (elapsedtime > speed)

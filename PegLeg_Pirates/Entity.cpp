@@ -13,6 +13,11 @@ sf::Vector2f Entity::getPos()
 	return m_body.getPosition();
 }
 
+void Entity::setHealth(int value)
+{
+	m_health = value;
+}
+
 void Entity::setPos(sf::Vector2f value)
 {
 	m_body.setPosition(value);
@@ -48,6 +53,10 @@ sf::Vector2f Entity::getSize()
 int Entity::getHealth()
 {
 	return m_health;
+}
+int Entity::getMaxHealth()
+{
+	return m_maxHealth;
 }
 
 bool Entity::isAlive()

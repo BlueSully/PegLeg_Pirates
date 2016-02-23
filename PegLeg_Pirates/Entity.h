@@ -50,11 +50,13 @@ public:
 	virtual bool canBeHit();
 	virtual bool isAlive();
 	virtual int getHealth();
+	virtual int getMaxHealth();
 	virtual void setActive(bool value);
 	virtual bool isActivated();
 
 	//set methods
 	virtual void setIsHit(bool value);
+	virtual void setHealth(int value);
 	virtual void setMaxHealth(int value);
 	virtual void setCanBeHit(bool value);
 	virtual void setPos(sf::Vector2f value);

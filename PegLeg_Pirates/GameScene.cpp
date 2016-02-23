@@ -9,14 +9,24 @@ enum HitType
 	sword,
 };
 
-GameScene::GameScene()
+int GameScene::getMoney()
 {
-
+	return money;
 }
 
-GameScene::GameScene(sf::Vector2u windowSize)
+void GameScene::setMoney(int value)
 {
-	initGame(windowSize);
+	money = value;
+}
+
+GameScene::GameScene()
+{
+	money = 0;
+}
+
+GameScene::GameScene(sf::Vector2u windowSize, int damage, int health)
+{
+	initGame(windowSize, damage, health);
 }
 
 GameScene::~GameScene()
@@ -39,13 +49,14 @@ GameScene::~GameScene()
 	entities.clear();
 }
 
-void GameScene::initGame(sf::Vector2u windowSize)
+void GameScene::initGame(sf::Vector2u windowSize, int damage, int health)
 {
 	// Creating floor
+	font.loadFromFile("Sprites/font.ttf");
 	m_floorTex.loadFromFile("Sprites/BackTex.png");
 	m_railTex.loadFromFile("Sprites/Railing.png");
 	m_skyTex.loadFromFile("Sprites/Sky.png");
-	m_playerbody.loadFromFile("Sprites/player.png");
+	m_gunTex.loadFromFile("Sprites/GunPirate.png");
 	m_playerSprite.loadFromFile("Sprites/playerSpritesheet.png");
 	m_shadow.loadFromFile("Sprites/shadow.png");
 	m_meleeWeapon.loadFromFile("Sprites/meleeWeapon.png");
@@ -57,6 +68,12 @@ void GameScene::initGame(sf::Vector2u windowSize)
 	num2Pressed = false;
 	num3Pressed = false;
 	num4Pressed = false;
+
+	bank.setFont(font);
+	bank.setCharacterSize(30);
+	bank.setString("Bank : " + money);
+	bank.setPosition(50, 50);
+	bank.setColor(sf::Color(255, 255, 0));
 
 	viewport.setPosition((float)windowSize.x / 2, (float)windowSize.y / 2);
 	viewport.setSize(sf::Vector2f((float)windowSize.x, (float)windowSize.y));
@@ -78,6 +95,9 @@ void GameScene::initGame(sf::Vector2u windowSize)
 
 	camera = sf::View(sf::Vector2f((float)windowSize.x / 2, (float)windowSize.y / 2), sf::Vector2f((float)windowSize.x, (float)windowSize.y));
 	player = Player(sf::Vector2f(50, 500), channel, FMODsys, &result, m_playerSprite, m_shadow, m_meleeWeapon);
+	player.setMaxHealth(player.getMaxHealth() + health);
+	player.setHealth(player.getMaxHealth());
+	player.setHitDamage(player.getMaxHitDamage() + damage);
 	entities.push_back(&player);
 	waveManager = WaveManager(sf::IntRect((int)camera.getCenter().x + 390, (int)-camera.getSize().y, 100, (int)camera.getSize().y * 3));
 
@@ -128,7 +148,6 @@ void GameScene::initEnemy(sf::Vector2u windowSize)
 		{
 			type = 1;
 		}
-		type = 1;
 		if (type == EnemyType::Sword)//intialise a sword enemy
 		{
 			EnemySword *melee = new EnemySword();
@@ -140,7 +159,7 @@ void GameScene::initEnemy(sf::Vector2u windowSize)
 		else if (type == EnemyType::Gun)//intialise a Gun enemy
 		{
 			EnemyGun *gun = new EnemyGun();
-			gun->initialise(sf::Vector2f((float)-1000, (float)(windowSize.y / 2) + 70), m_playerbody, m_shadow, m_meleeWeapon, i);//initialising enemy points
+			gun->initialise(sf::Vector2f((float)-1000, (float)(windowSize.y / 2) + 70), m_gunTex, m_shadow, m_meleeWeapon, i);//initialising enemy points
 			enemyGun.push_back(gun);
 			waveManager.addToWave(gun, rand() % 1 + 1);
 			entities.push_back(gun);//placing enemy pointers within array
@@ -175,8 +194,21 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 	if (waveManager.getWave1().size() == 0 && waveManager.getWave2().size() == 0
 		&& waveManager.getWave3().size() == 0 && killCount >= totalEnemySize)//all enemies have been killed
 	{
-		return Screens::GameOverScreen;
+		camera = sf::View(sf::Vector2f((float)windowSize.x / 2, (float)windowSize.y / 2), sf::Vector2f((float)windowSize.x, (float)windowSize.y));
 		killCount = 0;
+		return Screens::UpgradeScreen;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		return Screens::UpgradeScreen;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+	{
+		player.updateHealth(-5);
+	}
+	if (player.isAlive() == false)
+	{
+		return Screens::GameOverScreen;
 	}
 
 	for (int i = 0; i < totalEnemySize; i++)
@@ -232,7 +264,8 @@ int GameScene::gameUpdate(sf::Time elapsedTime, sf::Vector2u windowSize)
 			player.setIsHit(true);
 			if (player.isHit() && player.getHitCoolDown() <= 0)
 			{
-				player.updateHealth(-5);
+				player.updateHealth(-15);
+				player.setHitCoolDown(0.4f);
 			}
 		}
 	}
@@ -270,6 +303,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 			killCount++;
 			enemyMelee[i]->setActive(false);
 			activeCount--;
+			setMoney(getMoney() + 20);
 		}
 
 		if (enemyMelee[i]->isAlive() && enemyMelee[i]->isActivated())
@@ -279,7 +313,8 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 				player.setIsHit(true);
 				if (player.isHit() && player.getHitCoolDown() <= 0)
 				{
-					player.updateHealth(-5);
+					player.updateHealth(-15);
+					player.setHitCoolDown(0.4f);
 				}
 			}
 			if (player.CheckCollisionAttack(enemyMelee[i]->getPos(), enemyMelee[i]->getSize()))
@@ -302,6 +337,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 			if (!(*it)->isAlive() && !(*it)->isActivated())
 			{
 				enemyMelee.erase(std::remove(enemyMelee.begin(), enemyMelee.end(), (*it)), enemyMelee.end());//delete from vector array if not alive
+				break;
 			}
 		}
 	}
@@ -322,6 +358,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 			killCount++;
 			enemyGun[i]->setActive(false);
 			activeCount--;
+			setMoney(getMoney() + 10);
 		}
 
 		if (enemyGun[i]->isAlive() && enemyGun[i]->isActivated())
@@ -339,7 +376,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 			enemyGun[i]->update(elapsedTime, player.getPos(),
 				player.getSize(), player.getSpriteBase().getPosition(),
 				sf::Vector2f((float)player.getSpriteBase().getTextureRect().width,
-				(float)player.getSpriteBase().getTextureRect().height), &projectileManager);
+				(float)player.getSpriteBase().getTextureRect().height), &projectileManager, viewportRect);
 		}
 		else if (!enemyGun[i]->isAlive() && !enemyGun[i]->isActivated())
 		{
@@ -348,6 +385,7 @@ void GameScene::enemyUpdate(sf::Time elapsedTime, sf::Vector2u windowSize, sf::I
 				if (!(*it)->isAlive() && !(*it)->isActivated())
 				{
 					enemyGun.erase(std::remove(enemyGun.begin(), enemyGun.end(), (*it)), enemyGun.end());
+					break;
 				}
 			}
 		}
@@ -505,7 +543,9 @@ void GameScene::gameDraw(sf::RenderWindow * window)
 	{
 		window->draw(ambientAudioball);
 	}
-	
+	bank.setString("Bank : " + std::to_string(money));
+	bank.setPosition(50 + viewportRect.left, 50 + viewportRect.top);
+	window->draw(bank);
 	projectileManager.draw(window);
 
 	window->setView(camera);

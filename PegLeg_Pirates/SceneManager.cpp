@@ -10,6 +10,7 @@ SceneManager::SceneManager(sf::RenderWindow &window)
 	m_screenWindow = &window;
 	menu = new MenuScene(m_screenWindow->getSize(), Screens::TitleScreen);
 	options = new OptionsScene(m_screenWindow->getSize());
+	UpgradeScene.initUpgradeScene(m_screenWindow->getSize());
 }
 
 SceneManager::~SceneManager()
@@ -35,10 +36,13 @@ void SceneManager::checkindex()
 	switch (m_sceneIndex)
 	{
 		case Screens::UpgradeScreen:
-			UpgradeScene.initUpgradeScene(m_screenWindow->getSize());
-			break;
+		if (game != 0)
+		{
+			UpgradeScene.setCoins(game->getMoney());
+		}
+		break;
 		case Screens::GameScreen:
-			game = new GameScene(m_screenWindow->getSize());
+			game = new GameScene(m_screenWindow->getSize(), UpgradeScene.getDamage(), UpgradeScene.getHealth());
 			break;
 		case Screens::GameOverScreen:
 			menu->initMenu(m_screenWindow->getSize(), Screens::GameOverScreen);

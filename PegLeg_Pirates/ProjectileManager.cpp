@@ -146,9 +146,6 @@ void ProjectileManager::update(sf::Time deltatime)
 			break;
 		}
 	}
-
-	std::cout << playerbulletArray.size() << std::endl;
-	std::cout << enemybulletArray.size() << std::endl;
 }
 
 void ProjectileManager::draw(sf::RenderWindow * window)
